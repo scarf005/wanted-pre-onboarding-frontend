@@ -1,7 +1,7 @@
 import { routes } from "../routes"
 import { EmailInput, PasswordInput } from "./Inputs"
 import { useInput } from "./useInput"
-import { tid } from "../utils/testid"
+import { tid } from "../utils/ids"
 
 export const SignUp = () => {
   const emailInput = useInput()

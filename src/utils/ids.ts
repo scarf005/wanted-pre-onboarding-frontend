@@ -13,3 +13,7 @@ export const tid = {
   submitButton: "submit-button",
   cancelButton: "cancel-button",
 }
+
+export const localStorageKey = {
+  
+}

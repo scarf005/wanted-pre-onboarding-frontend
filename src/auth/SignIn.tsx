@@ -1,7 +1,7 @@
 import { routes } from "../routes"
 import { EmailInput, PasswordInput } from "./Inputs"
 import { useInput } from "./useInput"
-import { tid } from "../utils/testid"
+import { tid } from "../utils/ids"
 
 export const SignIn = () => {
   const emailInput = useInput()
@@ -40,7 +40,7 @@ export const SignIn = () => {
       </form>
       <nav>
         <h2>아직 회원이 아니신가요?</h2>
-        <a href={routes.signin}>
+        <a href={routes.signup}>
           회원가입하기
         </a>
       </nav>

@@ -1,5 +1,5 @@
 import { InputHTMLAttributes } from "react"
-import { tid } from "../utils/testid"
+import { tid } from "../utils/ids"
 import { ErrorMessage } from "./ErrorMessage"
 import { UseInput } from "./useInput"
 

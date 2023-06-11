@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { tid } from "../utils/testid"
+import { tid } from "../utils/ids"
 import { Todo } from "../utils/Todo"
 import { TodoItem } from "./TodoItem"
 import { useTodoList } from "./useTodoList"

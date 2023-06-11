@@ -1,4 +1,4 @@
-import { tid } from "../utils/testid"
+import { tid } from "../utils/ids"
 import { Todo } from "../utils/Todo"
 import { UpdateTodoProps } from "./TodoList"
 import { StyledCheckbox } from "./StyledCheckbox"
