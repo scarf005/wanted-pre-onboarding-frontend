@@ -26,6 +26,7 @@
     "eslint-plugin-react-refresh": "^0.4.1"
   },
   "scripts": {
+    "dev": "react-scripts start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
