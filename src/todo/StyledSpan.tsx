@@ -1,8 +1,7 @@
-import { forwardRef, HTMLAttributes, Ref } from "react"
+import {  HTMLAttributes } from "react"
 
-export const StyledSpan = forwardRef((
+export const StyledSpan = (
   props: HTMLAttributes<HTMLSpanElement>,
-  ref: Ref<HTMLSpanElement>,
 ) => (
   <span
     style={{
@@ -12,6 +11,5 @@ export const StyledSpan = forwardRef((
       textOverflow: "ellipsis",
     }}
     {...props}
-    ref={ref}
   />
-))
+)

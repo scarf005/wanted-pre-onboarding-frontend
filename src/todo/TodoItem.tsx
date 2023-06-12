@@ -2,7 +2,6 @@ import { tid } from "../utils/ids"
 import { Todo } from "../utils/Todo"
 import { UpdateTodoProps } from "./TodoList"
 import { StyledCheckbox } from "./StyledCheckbox"
-import { useIsTextOverflowing } from "./useIsTextOverflowing"
 import { StyledSpan } from "./StyledSpan"
 import { FormEvent, useState } from "react"
 
@@ -52,7 +51,6 @@ export const TodoItem = (
   { todo, isCompleted, update, remove }: Props,
 ) => {
   const [isModify, setModify] = useState(false)
-  const { ref, isOverflowing } = useIsTextOverflowing()
 
   return (
     <label
@@ -76,12 +74,7 @@ export const TodoItem = (
         )
         : (
           <>
-            <StyledSpan
-              title={isOverflowing ? todo : undefined}
-              ref={ref}
-            >
-              {todo}
-            </StyledSpan>
+            <StyledSpan title={todo}>{todo}</StyledSpan>
             <button
               type="button"
               data-testid={tid.modifyButton}
