@@ -1,12 +1,12 @@
-import { createContext, ReactNode, useContext } from "react"
+import { createContext, ReactNode } from "react"
 import { useNavigate } from "react-router-dom"
 import { useLocalJwtStorage } from "./utils/jwt"
 import { paths } from "./routes/paths"
 import { AuthSignInRequest, AuthSignUpRequest, signIn, signUp } from "./api"
 
-const AuthContext = createContext<AuthContext | null>(null)
+export const AuthContext = createContext<AuthContext | null>(null)
 
-type AuthContext = {
+export type AuthContext = {
   createAccount: (request: AuthSignUpRequest) => Promise<void>
   login: (request: AuthSignInRequest) => Promise<void>
   logout: () => void
@@ -54,14 +54,4 @@ export const AuthProvider = ({ children }: Props) => {
       {children}
     </AuthContext.Provider>
   )
-}
-
-export const useAuth = () => {
-  const context = useContext(AuthContext)
-  if (!context) {
-    throw new Error(
-      "AuthContext is not provided. Check that you used <AuthProvider>",
-    )
-  }
-  return context
 }

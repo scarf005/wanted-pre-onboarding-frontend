@@ -1,10 +1,9 @@
-import { routes } from "../routes/routes"
 import { EmailInput, PasswordInput } from "./Inputs"
 import { useInput } from "./useInput"
 import { tid } from "../utils/ids"
 import { Link } from "react-router-dom"
 import { paths } from "../routes/paths"
-import { useAuth } from "../authprovider"
+import { useAuth } from "../useAuth"
 
 export const SignIn = () => {
   const auth = useAuth()
