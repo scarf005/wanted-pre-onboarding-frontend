@@ -15,5 +15,5 @@ export const tid = {
 }
 
 export const localStorageKey = {
-  
+  jwtToken: "jwt-token",
 }
