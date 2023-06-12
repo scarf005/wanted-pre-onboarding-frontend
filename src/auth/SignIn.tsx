@@ -2,8 +2,12 @@ import { routes } from "../routes/routes"
 import { EmailInput, PasswordInput } from "./Inputs"
 import { useInput } from "./useInput"
 import { tid } from "../utils/ids"
+import { Link } from "react-router-dom"
+import { paths } from "../routes/paths"
+import { useAuth } from "../authprovider"
 
 export const SignIn = () => {
+  const auth = useAuth()
   const emailInput = useInput()
   const passwordInput = useInput()
 
@@ -19,8 +23,8 @@ export const SignIn = () => {
       </header>
       <form
         onSubmit={(e) => {
-          e.currentTarget.preventDefault()
-          alert(`email: ${email}, password: ${password}`)
+          e.preventDefault()
+          auth.login({ email, password })
         }}
       >
         <fieldset>
@@ -40,9 +44,9 @@ export const SignIn = () => {
       </form>
       <nav>
         <h2>아직 회원이 아니신가요?</h2>
-        <a href={routes.signup}>
+        <Link to={paths.signup}>
           회원가입하기
-        </a>
+        </Link>
       </nav>
     </main>
   )

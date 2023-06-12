@@ -36,8 +36,10 @@ export type TodoUpdateResponse = Todo
 
 export type TodoDeleteRequest = Pick<Todo, "id">
 
+const apiUrl = "https://www.pre-onboarding-selection-task.shop"
+
 const api = ky.create({
-  prefixUrl: "https://www.pre-onboarding-selection-task.shop",
+  prefixUrl: apiUrl,
 })
 
 const apiAuthed = () => {
@@ -48,17 +50,17 @@ const apiAuthed = () => {
     },
   })
 }
+
 // Auth
-export const signUp = async (request: AuthSignUpRequest) => {
+export const signUp = async (request: AuthSignUpRequest) =>
   await api.post("auth/signup", { json: request })
-}
 
 export const signIn = async (request: AuthSignInRequest) => {
-  const response = await api
-    .post("auth/signin", { json: request })
-    .json<AuthSignInResponse>()
-  localStorage.setItem(localStorageKey.jwtToken, response.access_token)
-  return response
+  const response = await api.post("auth/signin", { json: request })
+
+  const { access_token } = await response.json<AuthSignInResponse>()
+
+  return { response, access_token }
 }
 
 // Todo

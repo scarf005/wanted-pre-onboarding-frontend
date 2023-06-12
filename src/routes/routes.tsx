@@ -1,7 +1,7 @@
 import { RouteObject } from "react-router-dom"
-import { SignIn, SignUp } from "../auth"
 import { TodoList } from "../todo/TodoList"
 import { paths } from "./paths"
+import { SignIn, SignUp } from "../auth"
 
 type Visibility = "all" | "privateOnly" | "publicOnly"
 
