@@ -1,6 +1,6 @@
-import { createBrowserRouter, Link, Outlet } from "react-router-dom"
-import { paths, routes } from "./routes"
-import { Nav } from "./Nav"
+import { createBrowserRouter, Outlet } from "react-router-dom"
+import { routes } from "./routes"
+import { Nav } from "../Nav"
 
 export const router = createBrowserRouter([
   {

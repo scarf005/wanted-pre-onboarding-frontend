@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { useJwtStorage } from "./utils/storage"
-import { routes } from "./routes"
+import { routes } from "./routes/routes"
 
 export const Nav = () => {
   const [token] = useJwtStorage()

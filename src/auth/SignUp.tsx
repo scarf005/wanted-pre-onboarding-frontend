@@ -1,4 +1,4 @@
-import { routes } from "../routes"
+import { routes } from "../routes/routes"
 import { EmailInput, PasswordInput } from "./Inputs"
 import { useInput } from "./useInput"
 import { tid } from "../utils/ids"
