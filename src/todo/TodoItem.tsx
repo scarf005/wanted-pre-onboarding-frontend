@@ -1,28 +1,25 @@
 import { tid } from "../utils/ids"
 import { Todo } from "../utils/Todo"
-import { UpdateTodoProps } from "./TodoList"
 import { StyledCheckbox } from "./StyledCheckbox"
 import { StyledSpan } from "./StyledSpan"
 import { FormEvent, useState } from "react"
+import { UseTodoList } from "./useTodoList"
 
 type Props =
-  & Todo
-  & {
-    update: ({ todo, isCompleted }: Partial<UpdateTodoProps>) => void
-    remove: () => void
-  }
+  & { todo: Todo }
+  & Pick<UseTodoList, "removeTodo" | "updateTodo">
 
 export const TodoItemEdit = (
-  { todo: initalText, update, close }: Pick<Todo, "todo"> & {
-    update: ({ todo }: Pick<UpdateTodoProps, "todo">) => void
-    close: () => void
-  },
+  { todo, updateTodo, close }:
+    & { todo: Todo }
+    & Pick<UseTodoList, "updateTodo">
+    & { close: () => void },
 ) => {
-  const [text, setText] = useState(initalText)
+  const [text, setText] = useState(todo.todo)
 
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    update({ todo: text })
+    await updateTodo({ ...todo, todo: text })
     close()
   }
 
@@ -48,7 +45,7 @@ export const TodoItemEdit = (
 }
 
 export const TodoItem = (
-  { todo, isCompleted, update, remove }: Props,
+  { todo, updateTodo, removeTodo }: Props,
 ) => {
   const [isModify, setModify] = useState(false)
 
@@ -60,21 +57,21 @@ export const TodoItem = (
       }}
     >
       <StyledCheckbox
-        checked={isCompleted}
-        onChange={({ currentTarget: { checked } }) =>
-          update({ todo, isCompleted: checked })}
+        checked={todo.isCompleted}
+        onChange={async ({ currentTarget: { checked } }) =>
+          updateTodo({ ...todo, isCompleted: checked })}
       />
       {isModify
         ? (
           <TodoItemEdit
             todo={todo}
-            update={update}
+            updateTodo={updateTodo}
             close={() => setModify(false)}
           />
         )
         : (
           <>
-            <StyledSpan title={todo}>{todo}</StyledSpan>
+            <StyledSpan title={todo.todo}>{todo.todo}</StyledSpan>
             <button
               type="button"
               data-testid={tid.modifyButton}
@@ -85,7 +82,9 @@ export const TodoItem = (
             <button
               type="button"
               data-testid={tid.deleteButton}
-              onClick={remove}
+              onClick={async () => {
+                await removeTodo(todo)
+              }}
             >
               삭제
             </button>

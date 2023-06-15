@@ -11,8 +11,7 @@ export const TodoList = () => {
   const {
     todos,
     addTodo,
-    removeTodo,
-    updateTodo,
+    ...itemApi
   } = useTodoList()
 
   return (
@@ -21,9 +20,9 @@ export const TodoList = () => {
         <h1>할 일 목록</h1>
       </header>
       <form
-        onSubmit={(e) => {
+        onSubmit={async (e) => {
           e.preventDefault()
-          addTodo({ todo: text })
+          await addTodo({ todo: text })
           setText("")
         }}
       >
@@ -39,11 +38,7 @@ export const TodoList = () => {
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
-            <TodoItem
-              {...todo}
-              remove={removeTodo(todo)}
-              update={updateTodo(todo)}
-            />
+            <TodoItem todo={todo} {...itemApi} />
           </li>
         ))}
       </ul>

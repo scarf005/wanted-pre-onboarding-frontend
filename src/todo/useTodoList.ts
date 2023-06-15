@@ -1,29 +1,35 @@
-import { useState } from "react"
-import { UpdateTodoProps } from "./TodoList"
+import { useEffect, useState } from "react"
 import { Todo } from "../utils/Todo"
-import { TodoCreateRequest, TodoDeleteRequest } from "../api"
+import { TodoCreateRequest, TodoDeleteRequest, TodoUpdateRequest } from "../api"
+import * as api from "../api"
 
-// TODO
-const userId = 0 as const
+export type UseTodoList = {
+  todos: Todo[]
+  addTodo: (req: TodoCreateRequest) => Promise<void>
+  removeTodo: (req: TodoDeleteRequest) => Promise<void>
+  updateTodo: (req: TodoUpdateRequest) => Promise<void>
+}
 
-export const useTodoList = () => {
-  const [todos, setTodos] = useState<Todo[]>([
-    { id: 0, todo: "할 일 1", isCompleted: false, userId },
-  ])
-  const addTodo = ({ todo }: TodoCreateRequest) => {
-    setTodos([...todos, {
-      id: todos.length,
-      todo,
-      isCompleted: false,
-      userId,
-    }])
+export const useTodoList = (): UseTodoList => {
+  const [todos, setTodos] = useState<Todo[]>([])
+
+  const fetchTodos = async () => setTodos(await api.getTodos())
+
+  useEffect(() => {
+    fetchTodos()
+  }, [])
+
+  const addTodo = async (req: TodoCreateRequest) => {
+    await api.postTodo(req)
+    await fetchTodos()
   }
-  const removeTodo = ({ id }: TodoDeleteRequest) => () =>
-    setTodos(todos.filter((todo) => todo.id !== id))
-
-  const updateTodo = ({ id }: Todo) => (update: Partial<UpdateTodoProps>) => {
-    console.log(update)
-    setTodos(todos.map((t) => t.id === id ? { ...t, ...update } : t))
+  const removeTodo = async (req: TodoDeleteRequest) => {
+    await api.deleteTodo(req)
+    await fetchTodos()
+  }
+  const updateTodo = async (req: TodoUpdateRequest) => {
+    await api.updateTodo(req)
+    await fetchTodos()
   }
 
   return {
