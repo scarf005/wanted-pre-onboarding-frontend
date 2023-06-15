@@ -25,7 +25,12 @@ export const CreateItem = ({ addTodo }: Pick<UseTodoList, "addTodo">) => {
 }
 
 const Submit = ({ empty }: Pick<UseInputState, "empty">) => (
-  <button type="submit" data-testid={tid.newTodoAddButton} disabled={empty}>
+  <button
+    type="submit"
+    data-testid={tid.newTodoAddButton}
+    disabled={empty}
+    title={empty ? "할 일을 입력해주세요" : undefined}
+  >
     추가
   </button>
 )
@@ -35,5 +40,6 @@ const Input = ({ value, onChange }: InputState) => (
     data-testid={tid.newTodoInput}
     value={value}
     onChange={onChange}
+    minLength={1}
   />
 )

@@ -1,12 +1,14 @@
-import { ReactNode } from "react"
-import { ValidationState } from "./useInputValidation"
+import { CSSProperties, ReactNode } from "react"
+import { ValidationState } from "./utils/useInputValidation"
+
+const errorStyle: CSSProperties = {
+  color: "crimson",
+  fontSize: "smaller",
+  paddingLeft: "1em",
+}
 
 const Error = ({ children }: { children: ReactNode }) => (
-  <span
-    style={{ color: "crimson", fontSize: "smaller", paddingLeft: "1em" }}
-  >
-    {children}
-  </span>
+  <span style={errorStyle}>{children}</span>
 )
 
 type Props = { state: ValidationState }

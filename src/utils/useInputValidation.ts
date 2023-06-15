@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react"
-import { Result } from "../utils/Result"
+import { Result } from "./Result"
 
 type InputEvent = ChangeEvent<HTMLInputElement>
 

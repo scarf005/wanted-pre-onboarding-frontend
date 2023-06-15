@@ -1,5 +1,5 @@
 import { EmailInput, PasswordInput } from "./Inputs"
-import { useInput } from "./useInput"
+import { useValidatedInput } from "../utils/useInput"
 import { tid } from "../utils/ids"
 import { Link } from "react-router-dom"
 import { paths } from "../routes/paths"
@@ -7,8 +7,8 @@ import { useAuth } from "../useAuth"
 
 export const SignIn = () => {
   const auth = useAuth()
-  const emailInput = useInput()
-  const passwordInput = useInput()
+  const emailInput = useValidatedInput()
+  const passwordInput = useValidatedInput()
 
   const email = emailInput.value
   const password = passwordInput.value

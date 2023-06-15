@@ -34,7 +34,7 @@ export const Modify = (
 export const SubmitButton = (
   props: ButtonHTMLAttributes<HTMLButtonElement>,
 ) => (
-  <button type="submit" data-testid={tid.submitButton} {...props} disabled>
+  <button type="submit" data-testid={tid.submitButton} {...props}>
     제출
   </button>
 )

@@ -11,13 +11,13 @@ export type UseInputState = {
 export type InputState = Pick<UseInputState, "value" | "onChange">
 
 export const useInputState = (init = ""): UseInputState => {
-  const [value, setText] = useState(init)
+  const [value, setValue] = useState(init)
 
   return {
     value,
     empty: value === "",
     unchanged: value === init,
-    clear: () => setText(""),
-    onChange: (e) => setText(e.currentTarget.value),
+    clear: () => setValue(""),
+    onChange: (e) => setValue(e.currentTarget.value),
   }
 }

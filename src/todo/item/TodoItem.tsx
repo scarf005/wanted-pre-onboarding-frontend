@@ -7,7 +7,8 @@ import {
   RemoveButton,
 } from "./components/buttons"
 import { TodoCheckbox } from "./components/checkbox"
-import { Content, Label } from "./components/views"
+import { Content } from "./components/views"
+import "./TodoItem.module.css"
 
 export type Props =
   & { item: Todo }
@@ -17,7 +18,7 @@ export const TodoItem = ({ item, updateTodo, removeTodo }: Props) => {
   const { val: isEdit, on: setEdit, off: unsetEdit } = useBoolean(false)
 
   return (
-    <Label>
+    <label>
       <TodoCheckbox
         isCompleted={item.isCompleted}
         onCheck={(v) => updateTodo({ ...item, isCompleted: v })}
@@ -40,6 +41,6 @@ export const TodoItem = ({ item, updateTodo, removeTodo }: Props) => {
             <ModifyButton onClick={setEdit} />
           </>
         )}
-    </Label>
+    </label>
   )
 }

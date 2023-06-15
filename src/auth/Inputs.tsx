@@ -1,17 +1,17 @@
 import { InputHTMLAttributes } from "react"
 import { tid } from "../utils/ids"
-import { ErrorMessage } from "./ErrorMessage"
-import { UseInput } from "./useInput"
+import { UseValidatedInput } from "../utils/useInput"
+import { ErrorMessage } from "../ErrorMessage"
 
 type Props =
-  & UseInput
+  & UseValidatedInput
   & Partial<{
     labelProps: InputHTMLAttributes<HTMLLabelElement>
     inputProps: InputHTMLAttributes<HTMLInputElement>
   }>
 
 export const EmailInput = (
-  { state, value, handle, labelProps, inputProps }: Props,
+  { state, value, onChange: handle, labelProps, inputProps }: Props,
 ) => (
   <>
     <label htmlFor={tid.emailInput} {...labelProps}>
@@ -33,7 +33,7 @@ export const EmailInput = (
 )
 
 export const PasswordInput = (
-  { state, value, handle, labelProps, inputProps }: Props,
+  { state, value, onChange: handle, labelProps, inputProps }: Props,
 ) => (
   <>
     <label htmlFor={tid.passwordInput} {...labelProps}>
