@@ -1,14 +1,13 @@
 import { tid } from "../utils/ids"
 import { Todo } from "../utils/Todo"
-import { StyledCheckbox } from "./StyledCheckbox"
 import { StyledSpan } from "./StyledSpan"
-import { CSSProperties, FormEvent, useState } from "react"
+import { CSSProperties, FormEvent, ReactNode } from "react"
 import { UseTodoList } from "./useTodoList"
 import { useBoolean } from "./useBoolean"
 import { useInputState } from "./useInputState"
 
 type Props =
-  & { todo: Todo }
+  & { todo: Todo; children: ReactNode }
   & Pick<UseTodoList, "removeTodo" | "updateTodo">
 
 export const TodoItemEdit = (
@@ -17,7 +16,7 @@ export const TodoItemEdit = (
     & Pick<UseTodoList, "updateTodo">
     & { close: () => void },
 ) => {
-  const {text, onChange} = useInputState(todo.todo)
+  const { text, onChange } = useInputState(todo.todo)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -56,7 +55,7 @@ const labelStyle: CSSProperties = {
 }
 
 export const TodoItem = (
-  { todo, updateTodo, removeTodo }: Props,
+  { todo, updateTodo, removeTodo, children }: Props,
 ) => {
   const { val: isModify, toTrue: setModify, toFalse: unsetModify } = useBoolean(
     false,
@@ -64,15 +63,7 @@ export const TodoItem = (
 
   return (
     <label style={labelStyle}>
-      <StyledCheckbox
-        checked={todo.isCompleted}
-        onChange={({ currentTarget: { checked } }) => {
-          updateTodo({
-            ...todo,
-            isCompleted: checked,
-          })
-        }}
-      />
+      {children}
       {isModify
         ? (
           <TodoItemEdit

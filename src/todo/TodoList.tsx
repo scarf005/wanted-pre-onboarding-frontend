@@ -3,6 +3,7 @@ import { Todo } from "../utils/Todo"
 import { TodoItem } from "./TodoItem"
 import { useTodoList } from "./useTodoList"
 import { useInputState } from "./useInputState"
+import { TodoCheckbox } from "./TodoCheckbox"
 
 export type UpdateTodoProps = Pick<Todo, "todo" | "isCompleted">
 
@@ -11,7 +12,8 @@ export const TodoList = () => {
   const {
     todos,
     addTodo,
-    ...itemApi
+    updateTodo,
+    removeTodo,
   } = useTodoList()
 
   return (
@@ -38,7 +40,9 @@ export const TodoList = () => {
       <ul>
         {todos.map((todo) => (
           <li key={todo.id}>
-            <TodoItem todo={todo} {...itemApi} />
+            <TodoItem todo={todo} {...{ updateTodo, removeTodo }}>
+              <TodoCheckbox {...todo} updateTodo={updateTodo} />
+            </TodoItem>
           </li>
         ))}
       </ul>
