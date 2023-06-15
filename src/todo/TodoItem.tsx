@@ -2,8 +2,9 @@ import { tid } from "../utils/ids"
 import { Todo } from "../utils/Todo"
 import { StyledCheckbox } from "./StyledCheckbox"
 import { StyledSpan } from "./StyledSpan"
-import { FormEvent, useState } from "react"
+import { CSSProperties, FormEvent, useState } from "react"
 import { UseTodoList } from "./useTodoList"
+import { useBoolean } from "./useBoolean"
 
 type Props =
   & { todo: Todo }
@@ -44,47 +45,55 @@ export const TodoItemEdit = (
   )
 }
 
+const TodoContent = ({ todo }: Todo) => (
+  <StyledSpan title={todo}>{todo}</StyledSpan>
+)
+
+const labelStyle: CSSProperties = {
+  display: "flex",
+  alignItems: "stretch",
+}
+
 export const TodoItem = (
   { todo, updateTodo, removeTodo }: Props,
 ) => {
-  const [isModify, setModify] = useState(false)
+  const { val: isModify, toTrue: setModify, toFalse: unsetModify } = useBoolean(
+    false,
+  )
 
   return (
-    <label
-      style={{
-        display: "flex",
-        alignItems: "stretch",
-      }}
-    >
+    <label style={labelStyle}>
       <StyledCheckbox
         checked={todo.isCompleted}
-        onChange={async ({ currentTarget: { checked } }) =>
-          updateTodo({ ...todo, isCompleted: checked })}
+        onChange={({ currentTarget: { checked } }) => {
+          updateTodo({
+            ...todo,
+            isCompleted: checked,
+          })
+        }}
       />
       {isModify
         ? (
           <TodoItemEdit
             todo={todo}
             updateTodo={updateTodo}
-            close={() => setModify(false)}
+            close={unsetModify}
           />
         )
         : (
           <>
-            <StyledSpan title={todo.todo}>{todo.todo}</StyledSpan>
+            <TodoContent {...todo} />
             <button
               type="button"
               data-testid={tid.modifyButton}
-              onClick={() => setModify(true)}
+              onClick={setModify}
             >
               수정
             </button>
             <button
               type="button"
               data-testid={tid.deleteButton}
-              onClick={async () => {
-                await removeTodo(todo)
-              }}
+              onClick={() => removeTodo(todo)}
             >
               삭제
             </button>
