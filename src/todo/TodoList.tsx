@@ -1,13 +1,13 @@
-import { useState } from "react"
 import { tid } from "../utils/ids"
 import { Todo } from "../utils/Todo"
 import { TodoItem } from "./TodoItem"
 import { useTodoList } from "./useTodoList"
+import { useInputState } from "./useInputState"
 
 export type UpdateTodoProps = Pick<Todo, "todo" | "isCompleted">
 
 export const TodoList = () => {
-  const [text, setText] = useState("")
+  const { text, clearText, onChange } = useInputState()
   const {
     todos,
     addTodo,
@@ -23,13 +23,13 @@ export const TodoList = () => {
         onSubmit={async (e) => {
           e.preventDefault()
           await addTodo({ todo: text })
-          setText("")
+          clearText()
         }}
       >
         <input
           data-testid={tid.newTodoInput}
           value={text}
-          onChange={({ currentTarget: { value } }) => setText(value)}
+          onChange={onChange}
         />
         <button type="submit" data-testid={tid.newTodoAddButton}>
           추가

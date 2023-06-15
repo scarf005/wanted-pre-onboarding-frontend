@@ -5,6 +5,7 @@ import { StyledSpan } from "./StyledSpan"
 import { CSSProperties, FormEvent, useState } from "react"
 import { UseTodoList } from "./useTodoList"
 import { useBoolean } from "./useBoolean"
+import { useInputState } from "./useInputState"
 
 type Props =
   & { todo: Todo }
@@ -16,7 +17,7 @@ export const TodoItemEdit = (
     & Pick<UseTodoList, "updateTodo">
     & { close: () => void },
 ) => {
-  const [text, setText] = useState(todo.todo)
+  const {text, onChange} = useInputState(todo.todo)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -29,7 +30,7 @@ export const TodoItemEdit = (
       <input
         data-testid={tid.modifyInput}
         value={text}
-        onChange={({ currentTarget: { value } }) => setText(value)}
+        onChange={onChange}
       />
       <button type="submit" data-testid={tid.submitButton}>
         제출
