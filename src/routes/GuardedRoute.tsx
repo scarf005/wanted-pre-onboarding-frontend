@@ -14,6 +14,7 @@ export const PrivateOnlyRoute = ({ children }: Props) => {
   }
   return <>{children}</>
 }
+
 export const PublicOnlyRoute = ({ children }: Props) => {
   const navigate = useNavigate()
   const { status } = useAuth()

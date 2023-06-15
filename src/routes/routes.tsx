@@ -1,4 +1,4 @@
-import { RouteObject } from "react-router-dom"
+import { RouteObject, redirect } from "react-router-dom"
 import { TodoList } from "../todo"
 import { paths } from "./paths"
 import { SignIn, SignUp } from "../auth"
@@ -22,5 +22,5 @@ export const routes: RouteDefinition[] = [
     path: paths.todo,
     element: <TodoList />,
     visibility: "privateOnly",
-  },
+  }
 ]

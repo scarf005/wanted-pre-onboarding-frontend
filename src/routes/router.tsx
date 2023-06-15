@@ -1,7 +1,8 @@
-import { createBrowserRouter, Outlet } from "react-router-dom"
+import { createBrowserRouter, Outlet, redirect } from "react-router-dom"
 import { Nav } from "../Nav"
 import { guardedRoutes } from "./guardedRoutes"
 import { AuthProvider } from "../authprovider"
+import { paths } from "./paths"
 
 export const router = createBrowserRouter([
   {
@@ -12,6 +13,12 @@ export const router = createBrowserRouter([
         <Outlet />
       </AuthProvider>
     ),
-    children: guardedRoutes,
+    children: [
+      ...guardedRoutes,
+    ],
+  },
+  {
+    path: "*",
+    loader: () => redirect(paths.signin),
   },
 ])
