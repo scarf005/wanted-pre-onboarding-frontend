@@ -1,21 +1,23 @@
 import { tid } from "../utils/ids"
 import { Todo } from "../utils/Todo"
 import { FormEvent } from "react"
-import { UseTodoList } from "./hooks/useTodoList"
 import { useInputState } from "./hooks/useInputState"
+import { CancelSubmitButton } from "./components/CancelSubmitButton"
+
+type Props = {
+  init: Todo["todo"]
+  onSubmit: ({ todo }: Pick<Todo, "todo">) => Promise<void>
+  onCancel: () => void
+}
 
 export const TodoItemEdit = (
-  { todo, updateTodo, close }:
-    & { todo: Todo }
-    & Pick<UseTodoList, "updateTodo">
-    & { close: () => void },
+  { init, onSubmit, onCancel }: Props,
 ) => {
-  const { text, onChange } = useInputState(todo.todo)
+  const { text, onChange } = useInputState(init)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    await updateTodo({ ...todo, todo: text })
-    close()
+    await onSubmit({ todo: text })
   }
 
   return (
@@ -28,13 +30,7 @@ export const TodoItemEdit = (
       <button type="submit" data-testid={tid.submitButton}>
         제출
       </button>
-      <button
-        type="submit"
-        data-testid={tid.cancelButton}
-        onClick={close}
-      >
-        취소
-      </button>
+      <CancelSubmitButton onClick={onCancel} />
     </form>
   )
 }

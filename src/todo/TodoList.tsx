@@ -26,7 +26,7 @@ export const TodoList = () => {
         {todos.map((item) => (
           <li key={item.id}>
             <TodoItem
-              todo={item}
+              item={item}
               updateTodo={updateTodo}
               both={
                 <TodoCheckbox

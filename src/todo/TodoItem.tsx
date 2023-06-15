@@ -4,6 +4,7 @@ import { useBoolean } from "./hooks/useBoolean"
 import { TodoItemEdit } from "./TodoItemEdit"
 import { UseTodoList } from "./hooks/useTodoList"
 import { EditTodoButton } from "./components/EditTodoButton"
+import { CancelSubmitButton } from "./components/CancelSubmitButton"
 
 const labelStyle: CSSProperties = {
   display: "flex",
@@ -12,14 +13,14 @@ const labelStyle: CSSProperties = {
 
 export type Props =
   & {
-    todo: Todo
+    item: Todo
     both: ReactNode
     nonEdit: ReactNode
   }
   & Pick<UseTodoList, "updateTodo">
 
 export const TodoItem = (
-  { todo, updateTodo, nonEdit, both }: Props,
+  { item, updateTodo, nonEdit, both }: Props,
 ) => {
   const { val: isModify, on: setModify, off: unsetModify } = useBoolean(
     false,
@@ -31,9 +32,12 @@ export const TodoItem = (
       {isModify
         ? (
           <TodoItemEdit
-            todo={todo}
-            updateTodo={updateTodo}
-            close={unsetModify}
+            init={item.todo}
+            onCancel={unsetModify}
+            onSubmit={async ({ todo }) => {
+              await updateTodo({ ...item, todo })
+              unsetModify()
+            }}
           />
         )
         : (
