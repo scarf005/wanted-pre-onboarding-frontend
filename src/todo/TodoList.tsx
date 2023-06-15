@@ -1,6 +1,6 @@
 import { Todo } from "../utils/Todo"
 import { TodoItem } from "./TodoItem"
-import { useTodoList } from "./useTodoList"
+import { useTodoList } from "./hooks/useTodoList"
 import { TodoCheckbox } from "./TodoCheckbox"
 import { TodoCreateInput } from "./TodoCreateInput"
 import { RemoveTodoButton } from "./RemoveTodoButton"

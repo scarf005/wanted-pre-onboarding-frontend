@@ -1,9 +1,9 @@
 import { tid } from "../utils/ids"
 import { Todo } from "../utils/Todo"
 import { CSSProperties, ReactNode } from "react"
-import { useBoolean } from "./useBoolean"
+import { useBoolean } from "./hooks/useBoolean"
 import { TodoItemEdit } from "./TodoItemEdit"
-import { UseTodoList } from "./useTodoList"
+import { UseTodoList } from "./hooks/useTodoList"
 
 const labelStyle: CSSProperties = {
   display: "flex",

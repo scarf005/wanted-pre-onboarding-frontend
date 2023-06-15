@@ -1,8 +1,8 @@
 import { tid } from "../utils/ids"
 import { Todo } from "../utils/Todo"
 import { FormEvent } from "react"
-import { UseTodoList } from "./useTodoList"
-import { useInputState } from "./useInputState"
+import { UseTodoList } from "./hooks/useTodoList"
+import { useInputState } from "./hooks/useInputState"
 
 export const TodoItemEdit = (
   { todo, updateTodo, close }:

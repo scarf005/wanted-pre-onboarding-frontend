@@ -1,6 +1,6 @@
 import { tid } from "../utils/ids"
-import { UseTodoList } from "./useTodoList"
-import { useInputState } from "./useInputState"
+import { UseTodoList } from "./hooks/useTodoList"
+import { useInputState } from "./hooks/useInputState"
 
 export const TodoCreateInput = ({ addTodo }: Pick<UseTodoList, "addTodo">) => {
   const { text, clearText, onChange } = useInputState()
