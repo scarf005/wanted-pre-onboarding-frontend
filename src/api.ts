@@ -24,7 +24,7 @@ export type AuthSignInResponse = {
 }
 
 // Crud
-export type TodoCreateRequest = Todo["todo"]
+export type TodoCreateRequest = Pick<Todo, "todo">
 
 export type TodoCreateResponse = Todo
 
@@ -64,9 +64,9 @@ export const signIn = async (request: AuthSignInRequest) => {
 }
 
 // Todo
-export const postTodo = async (request: TodoCreateRequest) => {
+export const postTodo = async (todo: TodoCreateRequest) => {
   const response = await apiAuthed()
-    .post("todos", { json: request })
+    .post("todos", { json: todo })
     .json<TodoCreateResponse>()
   return response
 }
@@ -78,15 +78,15 @@ export const getTodos = async () => {
   return response
 }
 
-export const updateTodo = async (request: TodoUpdateRequest) => {
+export const updateTodo = async (todo: TodoUpdateRequest) => {
   const response = await apiAuthed()
-    .put(`todos/${request.id}`, { json: request })
+    .put(`todos/${todo.id}`, { json: todo })
     .json<TodoUpdateResponse>()
   return response
 }
 
 export const deleteTodo = async ({ id }: TodoDeleteRequest) => {
-  await apiAuthed().delete(`todos/${id}`, {})
+  await apiAuthed().delete(`todos/${id}`)
 }
 
 export type AuthApi = {

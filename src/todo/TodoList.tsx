@@ -23,7 +23,7 @@ export const TodoList = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault()
-          addTodo(text)
+          addTodo({ todo: text })
           setText("")
         }}
       >
