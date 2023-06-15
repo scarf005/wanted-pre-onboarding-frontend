@@ -1,5 +1,5 @@
 import { RouteObject } from "react-router-dom"
-import { TodoList } from "../todo/TodoList"
+import { TodoList } from "../todo"
 import { paths } from "./paths"
 import { SignIn, SignUp } from "../auth"
 

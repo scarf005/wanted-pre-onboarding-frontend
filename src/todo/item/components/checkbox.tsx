@@ -1,5 +1,5 @@
-import { Todo } from "../../utils/Todo"
-import { StyledCheckbox } from "./StyledCheckbox"
+import { Todo } from "../../../utils/Todo"
+import { StyledCheckbox } from "../../views/StyledCheckbox"
 
 type Props = Pick<Todo, "isCompleted"> & {
   onCheck: (checked: boolean) => Promise<void>
@@ -8,6 +8,6 @@ type Props = Pick<Todo, "isCompleted"> & {
 export const TodoCheckbox = ({ isCompleted, onCheck }: Props) => (
   <StyledCheckbox
     checked={isCompleted}
-    onChange={({ currentTarget: { checked } }) => onCheck(checked)}
+    onChange={(e) => onCheck(e.currentTarget.checked)}
   />
 )
