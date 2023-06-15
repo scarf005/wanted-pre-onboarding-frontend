@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { routes } from "./routes/routes"
-import { HTMLAttributes } from "react"
+import { CSSProperties, HTMLAttributes } from "react"
 import { useAuth } from "./useAuth"
 
 const ListItem = (
@@ -10,6 +10,18 @@ const ListItem = (
     {children}
   </li>
 )
+
+const navStyle: CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "space-between",
+}
+
+const ulStyle: CSSProperties = {
+  display: "flex",
+  alignItems: "center",
+  margin: "0 0 0 0",
+}
 
 export const Nav = () => {
   const { status, logout } = useAuth()
@@ -24,14 +36,8 @@ export const Nav = () => {
     ))
 
   return (
-    <nav
-      style={{
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "space-between",
-      }}
-    >
-      <ul style={{ display: "flex", alignItems: "center", margin: "0 0 0 0" }}>
+    <nav style={navStyle}>
+      <ul style={ulStyle}>
         {paths}
       </ul>
       {status === "authenticated" && (
