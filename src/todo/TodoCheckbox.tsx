@@ -1,15 +1,13 @@
 import { Todo } from "../utils/Todo"
-import { UseTodoList } from "./useTodoList"
 import { StyledCheckbox } from "./StyledCheckbox"
 
-type Props = Todo & Pick<UseTodoList, "updateTodo">
+type Props = Pick<Todo, "isCompleted"> & {
+  onCheck: (checked: boolean) => Promise<void>
+}
 
-export const TodoCheckbox = (
-  { updateTodo, ...todo }: Props,
-) => (
+export const TodoCheckbox = ({ isCompleted, onCheck }: Props) => (
   <StyledCheckbox
-    checked={todo.isCompleted}
-    onChange={({ currentTarget: { checked } }) =>
-      updateTodo({ ...todo, isCompleted: checked })}
+    checked={isCompleted}
+    onChange={({ currentTarget: { checked } }) => onCheck(checked)}
   />
 )

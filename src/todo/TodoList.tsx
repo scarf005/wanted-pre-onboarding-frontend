@@ -23,17 +23,21 @@ export const TodoList = () => {
       </header>
       <TodoCreateInput addTodo={addTodo} />
       <ul>
-        {todos.map((todo) => (
-          <li key={todo.id}>
+        {todos.map((item) => (
+          <li key={item.id}>
             <TodoItem
-              todo={todo}
+              todo={item}
               updateTodo={updateTodo}
-
-              both={<TodoCheckbox {...todo} updateTodo={updateTodo} />}
+              both={
+                <TodoCheckbox
+                  isCompleted={item.isCompleted}
+                  onCheck={(v) => updateTodo({ ...item, isCompleted: v })}
+                />
+              }
               nonEdit={
                 <>
-                  <TodoContent {...todo} />
-                  <RemoveTodoButton onClick={() => removeTodo(todo)} />
+                  <TodoContent todo={item.todo} />
+                  <RemoveTodoButton onClick={() => removeTodo(item)} />
                 </>
               }
             />
