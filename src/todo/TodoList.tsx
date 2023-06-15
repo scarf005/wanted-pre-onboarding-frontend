@@ -1,10 +1,10 @@
 import { Todo } from "../utils/Todo"
 import { TodoItem } from "./TodoItem"
 import { useTodoList } from "./hooks/useTodoList"
-import { TodoCheckbox } from "./TodoCheckbox"
+import { TodoCheckbox } from "./components/TodoCheckbox"
 import { TodoCreateInput } from "./TodoCreateInput"
-import { RemoveTodoButton } from "./RemoveTodoButton"
-import { TodoContent } from "./TodoContent"
+import { RemoveTodoButton } from "./components/RemoveTodoButton"
+import { TodoContent } from "./components/TodoContent"
 
 export type UpdateTodoProps = Pick<Todo, "todo" | "isCompleted">
 

@@ -1,24 +1,14 @@
-import { tid } from "../utils/ids"
 import { Todo } from "../utils/Todo"
 import { CSSProperties, ReactNode } from "react"
 import { useBoolean } from "./hooks/useBoolean"
 import { TodoItemEdit } from "./TodoItemEdit"
 import { UseTodoList } from "./hooks/useTodoList"
+import { EditTodoButton } from "./components/EditTodoButton"
 
 const labelStyle: CSSProperties = {
   display: "flex",
   alignItems: "stretch",
 }
-
-export const EditTodoButton = ({ onClick }: { onClick: () => void }) => (
-  <button
-    type="button"
-    data-testid={tid.modifyButton}
-    onClick={onClick}
-  >
-    수정
-  </button>
-)
 
 export type Props =
   & {

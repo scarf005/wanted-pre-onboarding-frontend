@@ -1,4 +1,4 @@
-import { Todo } from "../utils/Todo"
+import { Todo } from "../../utils/Todo"
 import { StyledCheckbox } from "./StyledCheckbox"
 
 type Props = Pick<Todo, "isCompleted"> & {

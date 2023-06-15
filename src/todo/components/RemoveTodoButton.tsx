@@ -1,5 +1,8 @@
-import { tid } from "../utils/ids"
+import { tid } from "../../utils/ids"
 
+type Props = {
+  onClick: () => Promise<void>
+}
 export const RemoveTodoButton = (
   { onClick }: Props,
 ) => {
@@ -12,7 +15,4 @@ export const RemoveTodoButton = (
       삭제
     </button>
   )
-}
-type Props = {
-  onClick: () => Promise<void>
 }
