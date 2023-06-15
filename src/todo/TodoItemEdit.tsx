@@ -1,12 +1,8 @@
 import { tid } from "../utils/ids"
 import { Todo } from "../utils/Todo"
-import { FormEvent, ReactNode } from "react"
+import { FormEvent } from "react"
 import { UseTodoList } from "./useTodoList"
 import { useInputState } from "./useInputState"
-
-export type Props =
-  & { todo: Todo; children: ReactNode }
-  & Pick<UseTodoList, "removeTodo" | "updateTodo">
 
 export const TodoItemEdit = (
   { todo, updateTodo, close }:

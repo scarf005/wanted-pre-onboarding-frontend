@@ -1,29 +1,43 @@
 import { tid } from "../utils/ids"
 import { Todo } from "../utils/Todo"
-import { StyledSpan } from "./StyledSpan"
-import { CSSProperties } from "react"
+import { CSSProperties, ReactNode } from "react"
 import { useBoolean } from "./useBoolean"
-import { Props, TodoItemEdit } from "./TodoItemEdit"
-
-const TodoContent = ({ todo }: Todo) => (
-  <StyledSpan title={todo}>{todo}</StyledSpan>
-)
+import { TodoItemEdit } from "./TodoItemEdit"
+import { UseTodoList } from "./useTodoList"
 
 const labelStyle: CSSProperties = {
   display: "flex",
   alignItems: "stretch",
 }
 
+export const EditTodoButton = ({ onClick }: { onClick: () => void }) => (
+  <button
+    type="button"
+    data-testid={tid.modifyButton}
+    onClick={onClick}
+  >
+    수정
+  </button>
+)
+
+export type Props =
+  & {
+    todo: Todo
+    both: ReactNode
+    nonEdit: ReactNode
+  }
+  & Pick<UseTodoList, "updateTodo">
+
 export const TodoItem = (
-  { todo, updateTodo, removeTodo, children }: Props,
+  { todo, updateTodo, nonEdit, both }: Props,
 ) => {
-  const { val: isModify, toTrue: setModify, toFalse: unsetModify } = useBoolean(
+  const { val: isModify, on: setModify, off: unsetModify } = useBoolean(
     false,
   )
 
   return (
     <label style={labelStyle}>
-      {children}
+      {both}
       {isModify
         ? (
           <TodoItemEdit
@@ -34,21 +48,8 @@ export const TodoItem = (
         )
         : (
           <>
-            <TodoContent {...todo} />
-            <button
-              type="button"
-              data-testid={tid.modifyButton}
-              onClick={setModify}
-            >
-              수정
-            </button>
-            <button
-              type="button"
-              data-testid={tid.deleteButton}
-              onClick={() => removeTodo(todo)}
-            >
-              삭제
-            </button>
+            {nonEdit}
+            <EditTodoButton onClick={setModify} />
           </>
         )}
     </label>

@@ -5,8 +5,8 @@ export const useBoolean = (initial: boolean) => {
   return {
     val,
     set,
-    toTrue: () => set(true),
-    toFalse: () => set(false),
+    on: () => set(true),
+    off: () => set(false),
     toggle: () => set((prev) => !prev),
   }
 }
