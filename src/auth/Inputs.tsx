@@ -1,7 +1,7 @@
 import { InputHTMLAttributes } from "react"
 import { tid } from "../utils/ids"
 import { UseValidatedInput } from "../utils/useInput"
-import { ErrorMessage } from "../ErrorMessage"
+import { ErrorMessage } from "./ErrorMessage"
 
 type Props =
   & UseValidatedInput

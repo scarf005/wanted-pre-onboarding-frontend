@@ -1,7 +1,7 @@
 import { CreateItem } from "./CreateItem"
 import { TodoItem } from "../item/TodoItem"
 import { useLoaderData } from "react-router-dom"
-import { getTodos } from "../../api"
+import { getTodos } from "../../routes/api"
 import { LoaderData } from "../../routes/type"
 
 export const TodoList = () => {

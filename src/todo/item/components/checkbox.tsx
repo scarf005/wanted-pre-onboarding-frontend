@@ -1,5 +1,4 @@
 import { Todo } from "../../../utils/Todo"
-import { StyledCheckbox } from "../../views/StyledCheckbox"
 import { useSerializedSubmit } from "../../../utils/serialized"
 import { ChangeEvent } from "react"
 
@@ -13,9 +12,11 @@ export const TodoCheckbox = (item: Todo) => {
     )
 
   return (
-    <StyledCheckbox
+    <input
+      type="checkbox"
       checked={item.isCompleted}
       onChange={handleChange}
+      style={{ marginRight: "0.5em" }}
     />
   )
 }

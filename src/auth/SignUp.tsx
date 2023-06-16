@@ -2,23 +2,8 @@ import { EmailInput, PasswordInput } from "./Inputs"
 import { useValidatedInput } from "../utils/useInput"
 import { tid } from "../utils/ids"
 import { paths } from "../routes/paths"
-import { Link, useNavigate } from "react-router-dom"
-import * as api from "../api"
-
-export const useSignUp = () => {
-  const navigate = useNavigate()
-
-  const signup = async (request: api.AuthSignUpRequest) => {
-    const response = await api.signUp(request)
-    if (response.ok) {
-      console.log("계정 생성 성공!")
-      navigate(paths.signin)
-    } else {
-      alert("계정 생성 실패!")
-    }
-  }
-  return { signup }
-}
+import { Link } from "react-router-dom"
+import { useSignUp } from "./useSignUp"
 
 export const SignUp = () => {
   const { signup } = useSignUp()
@@ -32,9 +17,7 @@ export const SignUp = () => {
 
   return (
     <main>
-      <header>
-        <h1>회원가입</h1>
-      </header>
+      <Header />
       <form
         onSubmit={(e) => {
           e.preventDefault()
@@ -65,3 +48,9 @@ export const SignUp = () => {
     </main>
   )
 }
+
+const Header = () => (
+  <header>
+    <h1>회원가입</h1>
+  </header>
+)

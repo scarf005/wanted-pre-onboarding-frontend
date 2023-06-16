@@ -1,5 +1,5 @@
 import ky from "ky"
-import { localStorageKey } from "./utils/ids"
+import { localStorageKey } from "../utils/ids"
 
 export type Todo = {
   id: number
@@ -87,16 +87,4 @@ export const updateTodo = async (todo: TodoUpdateRequest) => {
 
 export const deleteTodo = async ({ id }: TodoDeleteRequest) => {
   await apiAuthed().delete(`todos/${id}`)
-}
-
-export type AuthApi = {
-  signUp: (request: AuthSignUpRequest) => Promise<void>
-  signIn: (request: AuthSignInRequest) => Promise<AuthSignInResponse>
-}
-
-export type TodoApi = {
-  getTodos: () => Promise<TodoGetResponse>
-  postTodo: (request: TodoCreateRequest) => Promise<TodoCreateResponse>
-  updateTodo: (request: TodoUpdateRequest) => Promise<TodoUpdateResponse>
-  deleteTodo: (request: TodoDeleteRequest) => Promise<void>
 }

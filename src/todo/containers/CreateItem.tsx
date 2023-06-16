@@ -1,4 +1,4 @@
-import { TodoCreateRequest } from "../../api"
+import { TodoCreateRequest } from "../../routes/api"
 import { tid } from "../../utils/ids"
 import {
   InputState,

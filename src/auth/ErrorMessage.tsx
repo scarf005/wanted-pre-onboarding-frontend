@@ -1,5 +1,5 @@
 import { CSSProperties, ReactNode } from "react"
-import { ValidationState } from "./utils/useInputValidation"
+import { ValidationState } from "../utils/useInputValidation"
 
 const errorStyle: CSSProperties = {
   color: "crimson",

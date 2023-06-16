@@ -1,7 +1,7 @@
 import { Form } from "react-router-dom"
 import { tid } from "../../../utils/ids"
 import { OnClick } from "./type"
-import { TodoDeleteRequest } from "../../../api"
+import { TodoDeleteRequest } from "../../../routes/api"
 
 export const RemoveButton = ({ id }: { id: number }) => (
   <Form method="DELETE">

@@ -2,21 +2,9 @@ import { Form, Link, useNavigate } from "react-router-dom"
 import { routes } from "./routes/routes"
 import { CSSProperties, HTMLAttributes, MouseEvent } from "react"
 import { localStorageKey } from "./utils/ids"
-import { paths } from "./routes/paths"
 
 export const isAuthenticated = () =>
   localStorage.getItem(localStorageKey.jwtToken) !== null
-
-export const useLogout = () => {
-  const navigate = useNavigate()
-
-  const logout = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
-    e.preventDefault()
-    localStorage.removeItem(localStorageKey.jwtToken)
-    navigate(paths.signin)
-  }
-  return { logout }
-}
 
 const ListItem = (
   { children, ...props }: HTMLAttributes<HTMLLIElement>,
@@ -39,7 +27,6 @@ const ulStyle: CSSProperties = {
 }
 
 export const Nav = () => {
-  const { logout } = useLogout()
   const authenticated = isAuthenticated()
   const forbidden = authenticated ? "publicOnly" : "privateOnly"
 
