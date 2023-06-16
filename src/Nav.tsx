@@ -1,7 +1,7 @@
 import { Form, useLoaderData } from "react-router-dom"
 import { CSSProperties } from "react"
 import { LoaderData } from "./routes/type"
-import { isAuthenticated } from "./routes/router"
+import { isAuthenticated } from "./routes/rootRoutes"
 
 const navStyle: CSSProperties = {
   display: "flex",
