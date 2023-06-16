@@ -1,4 +1,4 @@
-import { TodoCreateRequest } from "../../routes/api"
+import { TodoPutReq } from "../../routes/api"
 import { tid } from "../../utils/ids"
 import {
   InputState,
@@ -31,7 +31,7 @@ const Submit = ({ empty }: Pick<UseInputState, "empty">) => (
 
 const Input = ({ value, onChange }: InputState) => (
   <input
-    name={"todo" satisfies keyof TodoCreateRequest}
+    name={"todo" satisfies keyof TodoPutReq}
     data-testid={tid.newTodoInput}
     value={value}
     onChange={onChange}

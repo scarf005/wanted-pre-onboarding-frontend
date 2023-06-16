@@ -1,13 +1,13 @@
 import { Form } from "react-router-dom"
 import { tid } from "../../../utils/ids"
 import { OnClick } from "./type"
-import { TodoDeleteRequest } from "../../../routes/api"
+import { TodoDeleteReq } from "../../../routes/api"
 
 export const RemoveButton = ({ id }: { id: number }) => (
   <Form method="DELETE">
     <button
-      name={"id" satisfies keyof TodoDeleteRequest}
-      value={id satisfies TodoDeleteRequest["id"]}
+      name={"id" satisfies keyof TodoDeleteReq}
+      value={id satisfies TodoDeleteReq["id"]}
       type="submit"
       data-testid={tid.deleteButton}
     >
