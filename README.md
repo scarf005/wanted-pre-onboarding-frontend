@@ -1,46 +1,36 @@
-# Getting Started with Create React App
+# PicoTODO@CRA: 원티드 프리온보딩 프론트엔드 [선발 과제][과제] 구현
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[과제]: https://github.com/walking-sunset/selection-task
 
-## Available Scripts
+<!-- TODO:
+  빌드 상태 배지 추가
+  github pages에 배포하고 링크 추가
+  documentation 엔드포인트 추가
+-->
 
-In the project directory, you can run:
 
-### `npm start`
+<!-- 
+  TODO: 실행 영상 mp4 추가
+-->
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+PicoTODO는 [Create React App](https://github.com/facebook/create-react-app)으로 만든 초소형 TODO 웹페이지입니다.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+<!--
+  TODO: 구현 기능 목록 추가
+-->
 
-### `npm test`
+## 실행 방법
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```sh
+# npm
+npm install
+npm start
 
-### `npm run build`
+# pnpm
+pnpm install
+pnpm start
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+## 라이선스
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+[AGPL 3.0 또는 이후](./LICENSE)

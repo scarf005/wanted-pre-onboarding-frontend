@@ -1,0 +1,24 @@
+name: test
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+    branches: ["main"]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          # https://github.com/actions/runner-images/blob/main/images/linux/Ubuntu2204-Readme.md
+          node-version: 18
+          cache: npm
+      - run: npm ci
+      - run: npm test
+      - run: npm build
+
+      - run: npm test -- --coverage
+      - uses: codecov/codecov-action@v3
