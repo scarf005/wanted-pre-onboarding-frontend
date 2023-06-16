@@ -24,7 +24,7 @@ export const Modify = ({ item, unsetEdit }: Props) => {
     <form onSubmit={handleSubmit}>
       <Input {...input} />
       <SubmitButton
-        disabled={input.state.type === "err"}
+        disabled={input.state.type !== "ok"}
         title={input.state.type === "err" ? input.state.error : undefined}
       />
       <CancelSubmitButton onClick={unsetEdit} />
