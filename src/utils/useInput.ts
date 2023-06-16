@@ -1,7 +1,7 @@
 import { useInputValidation, ValidationState } from "./useInputValidation"
 import { UseInputState, useInputState } from "./useInputState"
 
-export type UseValidatedInput = UseInputState & { state: ValidationState }
+export type UseValidatedInput = Omit<UseInputState, 'state'> & { state: ValidationState }
 
 /**
  * hook for a label and input pair.
