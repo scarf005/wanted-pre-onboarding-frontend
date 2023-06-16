@@ -23,7 +23,7 @@ export const ModifyButton = ({ onClick }: OnClick) => (
 )
 
 export const CancelSubmitButton = ({ onClick }: OnClick) => (
-  <button type="submit" data-testid={tid.cancelButton} onClick={onClick}>
+  <button type="button" data-testid={tid.cancelButton} onClick={onClick}>
     취소
   </button>
 )
