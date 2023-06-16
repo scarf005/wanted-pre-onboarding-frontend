@@ -9,5 +9,7 @@ const style: CSSProperties = {
 }
 
 export const Content = ({ todo }: Pick<Todo, "todo">) => (
-  <span style={style} title={todo}>{todo}</span>
+  <span style={style} title={todo}>
+    {todo}
+  </span>
 )

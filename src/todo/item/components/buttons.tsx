@@ -17,21 +17,13 @@ export const RemoveButton = ({ id }: { id: number }) => (
 )
 
 export const ModifyButton = ({ onClick }: OnClick) => (
-  <button
-    type="button"
-    data-testid={tid.modifyButton}
-    onClick={onClick}
-  >
+  <button type="button" data-testid={tid.modifyButton} onClick={onClick}>
     수정
   </button>
 )
 
 export const CancelSubmitButton = ({ onClick }: OnClick) => (
-  <button
-    type="submit"
-    data-testid={tid.cancelButton}
-    onClick={onClick}
-  >
+  <button type="submit" data-testid={tid.cancelButton} onClick={onClick}>
     취소
   </button>
 )
