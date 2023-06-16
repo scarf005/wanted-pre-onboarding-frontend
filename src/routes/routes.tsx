@@ -2,11 +2,17 @@ import { RouteObject } from "react-router-dom"
 import { TodoList } from "../todo"
 import { paths } from "./paths"
 import { SignIn, SignUp } from "../auth"
-import { getTodos } from "../api"
+import { getTodos, postTodo, TodoCreateRequest } from "../api"
 
 export type Visibility = "all" | "privateOnly" | "publicOnly"
 
-export type RouteDefinition = RouteObject & { path: string; visibility: Visibility }
+export type RouteDefinition = RouteObject & {
+  path: string
+  visibility: Visibility
+}
+
+export const unsafeFormData = async <T,>(request: Request) =>
+  Object.fromEntries(await request.formData()) as T
 
 export const routes: RouteDefinition[] = [
   {
@@ -24,5 +30,7 @@ export const routes: RouteDefinition[] = [
     element: <TodoList />,
     visibility: "privateOnly",
     loader: getTodos,
+    action: async ({ request }) =>
+      postTodo(await unsafeFormData<TodoCreateRequest>(request)),
   },
 ]

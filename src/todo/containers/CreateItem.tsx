@@ -1,26 +1,20 @@
+import { TodoCreateRequest } from "../../api"
 import { tid } from "../../utils/ids"
-import type { UseTodoList } from "../hooks/useTodoList"
 import {
   InputState,
   UseInputState,
   useInputState,
 } from "../../utils/useInputState"
-import { FormEvent } from "react"
+import { Form } from "react-router-dom"
 
-export const CreateItem = ({ addTodo }: Pick<UseTodoList, "addTodo">) => {
+export const CreateItem = () => {
   const input = useInputState()
 
-  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault()
-    await addTodo({ todo: input.value })
-    input.clear()
-  }
-
   return (
-    <form onSubmit={handleSubmit}>
+    <Form method="post" onSubmit={() => input.clear()}>
       <Input {...input} />
       <Submit empty={input.empty} />
-    </form>
+    </Form>
   )
 }
 
@@ -37,6 +31,7 @@ const Submit = ({ empty }: Pick<UseInputState, "empty">) => (
 
 const Input = ({ value, onChange }: InputState) => (
   <input
+    name={"todo" satisfies TodoCreateRequest["todo"]}
     data-testid={tid.newTodoInput}
     value={value}
     onChange={onChange}

@@ -7,12 +7,12 @@ import { LoaderData } from "../../routes/type"
 
 export const TodoList = () => {
   const todos = useLoaderData() as LoaderData<typeof getTodos>
-  const { addTodo, ...mutation } = useTodoList()
+  const { ...mutation } = useTodoList()
 
   return (
     <main>
       <Header />
-      <CreateItem addTodo={addTodo} />
+      <CreateItem />
       <ul>
         {todos.map((item) => (
           <li key={item.id}>
