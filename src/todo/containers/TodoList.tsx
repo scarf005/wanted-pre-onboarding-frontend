@@ -5,19 +5,11 @@ import { getTodos } from "../../api"
 import { LoaderData } from "../../routes/type"
 
 export const TodoList = () => {
-  const todos = useLoaderData() as LoaderData<typeof getTodos>
-
   return (
     <main>
       <Header />
       <CreateItem />
-      <ul>
-        {todos.map((item) => (
-          <li key={item.id}>
-            <TodoItem item={item} />
-          </li>
-        ))}
-      </ul>
+      <TodoItems />
     </main>
   )
 }
@@ -27,3 +19,16 @@ const Header = () => (
     <h1>할 일 목록</h1>
   </header>
 )
+
+const TodoItems = () => {
+  const todos = useLoaderData() as LoaderData<typeof getTodos>
+  return (
+    <ul>
+      {todos.map((item) => (
+        <li key={item.id}>
+          <TodoItem {...item} />
+        </li>
+      ))}
+    </ul>
+  )
+}

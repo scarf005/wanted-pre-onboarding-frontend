@@ -10,9 +10,7 @@ type Props = {
   unsetEdit: () => void
 }
 
-export const Modify = (
-  { item, unsetEdit }: Props,
-) => {
+export const Modify = ({ item, unsetEdit }: Props) => {
   const submit = useSerializedSubmit()
   const input = useInputState(item.todo)
 
