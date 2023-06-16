@@ -1,5 +1,6 @@
 import ky from "ky"
 import { localStorageKey } from "../utils/ids"
+import { fromPromise } from "../utils/Result"
 
 export type Todo = {
   id: number
@@ -52,16 +53,14 @@ const apiAuthed = () => {
 }
 
 // Auth
-export const signUp = async (request: AuthSignUpRequest) =>
-  await api.post("auth/signup", { json: request })
+export const signUp = (request: AuthSignUpRequest) =>
+  fromPromise(api.post("auth/signup", { json: request }))
 
-export const signIn = async (request: AuthSignInRequest) => {
-  const response = await api.post("auth/signin", { json: request })
-
-  const { access_token } = await response.json<AuthSignInResponse>()
-
-  return { response, access_token }
-}
+export const signIn = (request: AuthSignInRequest) =>
+  fromPromise(
+    api.post("auth/signin", { json: request })
+      .json<AuthSignInResponse>(),
+  )
 
 // Todo
 export const postTodo = async (todo: TodoCreateRequest) => {

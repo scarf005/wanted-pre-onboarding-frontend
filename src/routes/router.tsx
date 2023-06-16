@@ -4,6 +4,9 @@ import { guardedRoutes } from "./guardedRoutes"
 import { paths } from "./paths"
 import { localStorageKey } from "../utils/ids"
 
+export const isAuthenticated = () =>
+  localStorage.getItem(localStorageKey.jwtToken) !== null
+
 export const logout = async () => {
   localStorage.removeItem(localStorageKey.jwtToken)
   return redirect(paths.signin)
@@ -19,6 +22,7 @@ export const router = createBrowserRouter([
       </>
     ),
     children: guardedRoutes,
+    loader: isAuthenticated,
     action: logout,
   },
   {

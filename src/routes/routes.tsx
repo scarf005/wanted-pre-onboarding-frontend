@@ -4,6 +4,8 @@ import { paths } from "./paths"
 import { SignIn, SignUp } from "../auth"
 import { deleteTodo, getTodos, postTodo, updateTodo } from "./api"
 import { unsafeFormData, unsafePayload } from "../utils/serialized"
+import { signUpAction } from "../auth/signUpAction"
+import { signInAction } from "../auth/signInAction"
 
 export type Visibility = "all" | "privateOnly" | "publicOnly"
 
@@ -17,11 +19,13 @@ export const routes: RouteDefinition[] = [
     path: paths.signup,
     element: <SignUp />,
     visibility: "publicOnly",
+    action: signUpAction,
   },
   {
     path: paths.signin,
     element: <SignIn />,
     visibility: "publicOnly",
+    action: signInAction,
   },
   {
     path: paths.todo,
@@ -35,14 +39,9 @@ export const routes: RouteDefinition[] = [
         case "DELETE":
           await deleteTodo(await unsafeFormData(request))
           return null
-        case "PUT": {
+        case "PUT":
           await updateTodo(await unsafePayload(request))
           return null
-        }
-        default:
-          throw new Response(`알 수 없는 요청 ${request.method}`, {
-            status: 405,
-          })
       }
     },
   },

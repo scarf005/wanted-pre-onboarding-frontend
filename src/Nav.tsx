@@ -1,10 +1,8 @@
-import { Form, Link, useNavigate } from "react-router-dom"
+import { Form, Link, useLoaderData } from "react-router-dom"
 import { routes } from "./routes/routes"
-import { CSSProperties, HTMLAttributes, MouseEvent } from "react"
-import { localStorageKey } from "./utils/ids"
-
-export const isAuthenticated = () =>
-  localStorage.getItem(localStorageKey.jwtToken) !== null
+import { CSSProperties, HTMLAttributes } from "react"
+import { LoaderData } from "./routes/type"
+import { isAuthenticated } from "./routes/router"
 
 const ListItem = (
   { children, ...props }: HTMLAttributes<HTMLLIElement>,
@@ -27,7 +25,8 @@ const ulStyle: CSSProperties = {
 }
 
 export const Nav = () => {
-  const authenticated = isAuthenticated()
+  const authenticated = useLoaderData() as LoaderData<typeof isAuthenticated>
+  console.log({ authenticated })
   const forbidden = authenticated ? "publicOnly" : "privateOnly"
 
   const paths = routes
@@ -43,13 +42,15 @@ export const Nav = () => {
       <ul style={ulStyle}>
         {paths}
       </ul>
-      {authenticated && (
-        <Form method="POST">
-          <button type="submit" name="logout">
-            로그아웃
-          </button>
-        </Form>
-      )}
+      {authenticated && <Logoutbutton />}
     </nav>
   )
 }
+
+export const Logoutbutton = () => (
+  <Form method="POST">
+    <button type="submit" name="auth" value="logout">
+      로그아웃
+    </button>
+  </Form>
+)

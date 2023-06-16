@@ -20,6 +20,7 @@ export const EmailInput = (
     </label>
     <input
       required
+      name="email"
       type="email"
       autoComplete="email"
       pattern="^.*@.*$"
@@ -42,6 +43,7 @@ export const PasswordInput = (
     </label>
     <input
       required
+      name="password"
       type="password"
       minLength={8}
       id={tid.passwordInput}

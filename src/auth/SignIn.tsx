@@ -1,56 +1,62 @@
 import { EmailInput, PasswordInput } from "./Inputs"
 import { useValidatedInput } from "../utils/useInput"
 import { tid } from "../utils/ids"
-import { Link } from "react-router-dom"
+import { Form, Link } from "react-router-dom"
 import { paths } from "../routes/paths"
-import { useSignIn } from "./useSignIn"
 
-export const SignIn = () => {
-  const { signin } = useSignIn()
-  const emailInput = useValidatedInput()
-  const passwordInput = useValidatedInput()
-
-  const email = emailInput.value
-  const password = passwordInput.value
-  const isInvalid = [emailInput, passwordInput]
-    .every(({ state: { type } }) => type === "err")
-
-  return (
-    <main>
-      <Header />
-      <form
-        onSubmit={(e) => {
-          e.preventDefault()
-          signin({ email, password })
-        }}
-      >
-        <fieldset>
-          <EmailInput {...emailInput} />
-          <PasswordInput
-            {...passwordInput}
-            inputProps={{ autoComplete: "current-password" }}
-          />
-        </fieldset>
-        <button
-          type="submit"
-          data-testid={tid.signinButton}
-          disabled={isInvalid}
-        >
-          로그인
-        </button>
-      </form>
-      <nav>
-        <h2>아직 회원이 아니신가요?</h2>
-        <Link to={paths.signup}>
-          회원가입하기
-        </Link>
-      </nav>
-    </main>
-  )
-}
+export const SignIn = () => (
+  <>
+    <Header />
+    <SignInForm />
+    <ToSignUp />
+  </>
+)
 
 const Header = () => (
   <header>
     <h1>로그인</h1>
   </header>
 )
+
+const SignInForm = () => {
+  const email = useValidatedInput()
+  const password = useValidatedInput()
+
+  const isInvalid = [email, password]
+    .every(({ state: { type } }) => type === "err")
+
+  return (
+    <Form method="POST">
+      <fieldset>
+        <EmailInput {...email} />
+        <PasswordInput
+          {...password}
+          inputProps={{ autoComplete: "current-password" }}
+        />
+      </fieldset>
+      <Submit isInvalid={isInvalid} />
+    </Form>
+  )
+}
+
+const Submit = ({ isInvalid }: { isInvalid: boolean }) => (
+  <button
+    type="submit"
+    data-testid={tid.signinButton}
+    disabled={isInvalid}
+  >
+    로그인
+  </button>
+)
+
+const ToSignUp = () => {
+  const { signup } = paths
+  return (
+    <nav aria-labelledby={signup}>
+      <h2>아직 회원이 아니신가요?</h2>
+      <Link to={signup} id={signup}>
+        회원가입하기
+      </Link>
+    </nav>
+  )
+}
