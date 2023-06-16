@@ -1,12 +1,28 @@
 import { EmailInput, PasswordInput } from "./Inputs"
 import { useValidatedInput } from "../utils/useInput"
-import { tid } from "../utils/ids"
-import { Link } from "react-router-dom"
+import { localStorageKey, tid } from "../utils/ids"
+import { Link, useNavigate } from "react-router-dom"
 import { paths } from "../routes/paths"
-import { useAuth } from "../useAuth"
+import * as api from "../api"
+
+export const useSignIn = () => {
+  const navigate = useNavigate()
+
+  const signin = async (request: api.AuthSignInRequest) => {
+    const { response, access_token } = await api.signIn(request)
+    if (response.ok) {
+      console.log("로그인 성공!")
+      localStorage.setItem(localStorageKey.jwtToken, access_token)
+      navigate(paths.todo)
+    } else {
+      alert("로그인 실패!")
+    }
+  }
+  return { signin }
+}
 
 export const SignIn = () => {
-  const auth = useAuth()
+  const { signin } = useSignIn()
   const emailInput = useValidatedInput()
   const passwordInput = useValidatedInput()
 
@@ -23,7 +39,7 @@ export const SignIn = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault()
-          auth.login({ email, password })
+          signin({ email, password })
         }}
       >
         <fieldset>

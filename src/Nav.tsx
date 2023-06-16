@@ -1,7 +1,21 @@
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 import { routes } from "./routes/routes"
 import { CSSProperties, HTMLAttributes } from "react"
-import { useAuth } from "./useAuth"
+import { localStorageKey } from "./utils/ids"
+import { paths } from "./routes/paths"
+
+export const isAuthenticated = () =>
+  localStorage.getItem(localStorageKey.jwtToken) !== null
+
+export const useLogout = () => {
+  const navigate = useNavigate()
+
+  const logout = () => {
+    localStorage.removeItem(localStorageKey.jwtToken)
+    navigate(paths.signin, { replace: true })
+  }
+  return { logout }
+}
 
 const ListItem = (
   { children, ...props }: HTMLAttributes<HTMLLIElement>,
@@ -24,8 +38,9 @@ const ulStyle: CSSProperties = {
 }
 
 export const Nav = () => {
-  const { status, logout } = useAuth()
-  const forbidden = status === "authenticated" ? "publicOnly" : "privateOnly"
+  const { logout } = useLogout()
+  const authenticated = isAuthenticated()
+  const forbidden = authenticated ? "publicOnly" : "privateOnly"
 
   const paths = routes
     .filter(({ visibility }) => visibility !== forbidden)
@@ -40,7 +55,7 @@ export const Nav = () => {
       <ul style={ulStyle}>
         {paths}
       </ul>
-      {status === "authenticated" && (
+      {authenticated && (
         <button type="submit" onClick={logout}>
           로그아웃
         </button>

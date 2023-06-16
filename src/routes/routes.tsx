@@ -1,11 +1,12 @@
-import { RouteObject, redirect } from "react-router-dom"
+import { RouteObject } from "react-router-dom"
 import { TodoList } from "../todo"
 import { paths } from "./paths"
 import { SignIn, SignUp } from "../auth"
+import { getTodos } from "../api"
 
-type Visibility = "all" | "privateOnly" | "publicOnly"
+export type Visibility = "all" | "privateOnly" | "publicOnly"
 
-type RouteDefinition = RouteObject & { path: string; visibility: Visibility }
+export type RouteDefinition = RouteObject & { path: string; visibility: Visibility }
 
 export const routes: RouteDefinition[] = [
   {
@@ -22,5 +23,6 @@ export const routes: RouteDefinition[] = [
     path: paths.todo,
     element: <TodoList />,
     visibility: "privateOnly",
-  }
+    loader: getTodos,
+  },
 ]

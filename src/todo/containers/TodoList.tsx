@@ -1,9 +1,13 @@
 import { useTodoList } from "../hooks/useTodoList"
 import { CreateItem } from "./CreateItem"
 import { TodoItem } from "../item/TodoItem"
+import { useLoaderData } from "react-router-dom"
+import { getTodos } from "../../api"
+import { LoaderData } from "../../routes/type"
 
 export const TodoList = () => {
-  const { todos, addTodo, ...mutation } = useTodoList()
+  const todos = useLoaderData() as LoaderData<typeof getTodos>
+  const { addTodo, ...mutation } = useTodoList()
 
   return (
     <main>

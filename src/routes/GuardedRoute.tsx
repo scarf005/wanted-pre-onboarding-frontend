@@ -1,14 +1,14 @@
 import { useNavigate } from "react-router-dom"
 import { paths } from "./paths"
 import { ReactNode } from "react"
-import { useAuth } from "../useAuth"
+import { isAuthenticated } from "../Nav"
 
 type Props = { children: ReactNode }
 export const PrivateOnlyRoute = ({ children }: Props) => {
   const navigate = useNavigate()
-  const { status } = useAuth()
+  const authed = isAuthenticated()
 
-  if (status === "unauthenticated") {
+  if (!authed) {
     console.log("not authenticated, redirect to signin")
     navigate(paths.signin)
   }
@@ -17,9 +17,9 @@ export const PrivateOnlyRoute = ({ children }: Props) => {
 
 export const PublicOnlyRoute = ({ children }: Props) => {
   const navigate = useNavigate()
-  const { status } = useAuth()
+  const authed = isAuthenticated()
 
-  if (status === "authenticated") {
+  if (authed) {
     console.log("already authenticated, redirect to todo")
     navigate(paths.todo)
   }

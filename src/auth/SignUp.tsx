@@ -2,11 +2,26 @@ import { EmailInput, PasswordInput } from "./Inputs"
 import { useValidatedInput } from "../utils/useInput"
 import { tid } from "../utils/ids"
 import { paths } from "../routes/paths"
-import { Link } from "react-router-dom"
-import { useAuth } from "../useAuth"
+import { Link, useNavigate } from "react-router-dom"
+import * as api from "../api"
+
+export const useSignUp = () => {
+  const navigate = useNavigate()
+
+  const signup = async (request: api.AuthSignUpRequest) => {
+    const response = await api.signUp(request)
+    if (response.ok) {
+      console.log("계정 생성 성공!")
+      navigate(paths.signin)
+    } else {
+      alert("계정 생성 실패!")
+    }
+  }
+  return { signup }
+}
 
 export const SignUp = () => {
-  const auth = useAuth()
+  const { signup } = useSignUp()
   const emailInput = useValidatedInput()
   const passwordInput = useValidatedInput()
 
@@ -23,7 +38,7 @@ export const SignUp = () => {
       <form
         onSubmit={(e) => {
           e.preventDefault()
-          auth.createAccount({ email, password })
+          signup({ email, password })
         }}
       >
         <fieldset>

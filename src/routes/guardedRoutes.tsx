@@ -1,17 +1,32 @@
-import { routes } from "./routes"
-import { PrivateOnlyRoute, PublicOnlyRoute } from "./GuardedRoute"
+import { routes, Visibility } from "./routes"
+import { isAuthenticated } from "../Nav"
+import { LoaderFunction, redirect } from "react-router-dom"
+import { paths } from "./paths"
+
+const toTodo = () => redirect(paths.todo)
+const toSignIn = () => redirect(paths.signin)
+
+type Option = {
+  visibility: Visibility
+  loader: LoaderFunction | undefined
+}
+const guardLoader = (
+  { visibility, loader }: Option,
+) => {
+  const authed = isAuthenticated()
+
+  switch (visibility) {
+    case "publicOnly":
+      return authed ? toTodo : loader
+    case "privateOnly":
+      return authed ? loader : toSignIn
+    case "all":
+      return loader
+  }
+}
 
 export const guardedRoutes = routes
-  .map(({ visibility, element, ...args }) => ({
+  .map(({ visibility, loader, ...args }) => ({
     ...args,
-    element: (() => {
-      switch (visibility) {
-        case "publicOnly":
-          return <PublicOnlyRoute>{element}</PublicOnlyRoute>
-        case "privateOnly":
-          return <PrivateOnlyRoute>{element}</PrivateOnlyRoute>
-        default:
-          return element
-      }
-    })(),
+    loader: guardLoader({ visibility, loader }),
   }))
