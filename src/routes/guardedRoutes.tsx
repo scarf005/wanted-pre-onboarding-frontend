@@ -3,25 +3,24 @@ import { isAuthenticated } from "../Nav"
 import { LoaderFunction, redirect } from "react-router-dom"
 import { paths } from "./paths"
 
-const toTodo = () => redirect(paths.todo)
-const toSignIn = () => redirect(paths.signin)
-
 type Option = {
   visibility: Visibility
-  loader: LoaderFunction | undefined
+  loader?: LoaderFunction
 }
 const guardLoader = (
   { visibility, loader }: Option,
-) => {
+) =>
+async () => {
   const authed = isAuthenticated()
+  const load = () => (loader as () => Promise<Response>)?.() ?? null
 
   switch (visibility) {
     case "publicOnly":
-      return authed ? toTodo : loader
+      return authed ? redirect(paths.todo) : load()
     case "privateOnly":
-      return authed ? loader : toSignIn
+      return authed ? load() : redirect(paths.signin)
     case "all":
-      return loader
+      return load()
   }
 }
 

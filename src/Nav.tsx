@@ -1,6 +1,6 @@
-import { Link, useNavigate } from "react-router-dom"
+import { Form, Link, useNavigate } from "react-router-dom"
 import { routes } from "./routes/routes"
-import { CSSProperties, HTMLAttributes } from "react"
+import { CSSProperties, HTMLAttributes, MouseEvent } from "react"
 import { localStorageKey } from "./utils/ids"
 import { paths } from "./routes/paths"
 
@@ -10,9 +10,10 @@ export const isAuthenticated = () =>
 export const useLogout = () => {
   const navigate = useNavigate()
 
-  const logout = () => {
+  const logout = (e: MouseEvent<HTMLButtonElement, globalThis.MouseEvent>) => {
+    e.preventDefault()
     localStorage.removeItem(localStorageKey.jwtToken)
-    navigate(paths.signin, { replace: true })
+    navigate(paths.signin)
   }
   return { logout }
 }
@@ -56,9 +57,11 @@ export const Nav = () => {
         {paths}
       </ul>
       {authenticated && (
-        <button type="submit" onClick={logout}>
-          로그아웃
-        </button>
+        <Form method="POST">
+          <button type="submit" name="logout">
+            로그아웃
+          </button>
+        </Form>
       )}
     </nav>
   )

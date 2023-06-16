@@ -1,9 +1,10 @@
-import { RouteObject } from "react-router-dom"
+import { redirect, RouteObject } from "react-router-dom"
 import { TodoList } from "../todo"
 import { paths } from "./paths"
 import { SignIn, SignUp } from "../auth"
 import { deleteTodo, getTodos, postTodo, updateTodo } from "../api"
 import { unsafeFormData, unsafePayload } from "../utils/serialized"
+import { isAuthenticated } from "../Nav"
 
 export type Visibility = "all" | "privateOnly" | "publicOnly"
 
