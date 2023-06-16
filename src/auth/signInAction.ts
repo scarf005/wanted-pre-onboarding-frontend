@@ -12,7 +12,7 @@ export const signInAction: ActionFunction = async ({ request }) => {
       localStorage.setItem(localStorageKey.jwtToken, res.data.access_token)
       return redirect(paths.todo)
     case "err":
-      alert("로그인에 실패했습니다. 이메일과 비밀번호를 확인해주세요.")
+      alert("로그인에 실패했습니다. 계정이 있고 비밀번호를 올바르게 입력했는지 확인해주세요.")
       console.error(res.error)
       return null
   }
