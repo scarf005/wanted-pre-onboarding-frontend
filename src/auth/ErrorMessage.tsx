@@ -1,22 +1,26 @@
-import { CSSProperties, ReactNode } from "react"
+import { CSSProperties } from "react"
 import { ValidationState } from "../utils/useInputValidation"
 
 const errorStyle: CSSProperties = {
   color: "crimson",
   fontSize: "1rem",
-  paddingLeft: "1em",
+  minHeight: "1rem",
+  maxWidth: "22rem",
+  margin: 0,
+  whiteSpace: "nowrap",
+  overflow: "hidden",
+  textOverflow: "ellipsis",
 }
-
-const Error = ({ children }: { children: ReactNode }) => (
-  <span style={errorStyle}>{children}</span>
-)
 
 type Props = { state: ValidationState }
 export const ErrorMessage = ({ state }: Props) => {
-  switch (state.type) {
-    case "ok":
-      return null
-    case "err":
-      return <Error>{state.error}</Error>
-  }
+  const isErr = state.type === "err"
+  const message = isErr ? state.error : "(빈 에러 메시지)"
+  return (
+    <p style={errorStyle}>
+      <em title={message} style={{ visibility: isErr ? undefined : "hidden" }}>
+        {message}
+      </em>
+    </p>
+  )
 }

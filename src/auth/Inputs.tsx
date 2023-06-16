@@ -19,7 +19,6 @@ export const EmailInput = ({
   <>
     <label htmlFor={tid.emailInput} {...labelProps}>
       이메일
-      <ErrorMessage state={state} />
     </label>
     <input
       required
@@ -33,6 +32,7 @@ export const EmailInput = ({
       onChange={onChange}
       {...inputProps}
     />
+    <ErrorMessage state={state} />
   </>
 )
 
@@ -46,7 +46,6 @@ export const PasswordInput = ({
   <>
     <label htmlFor={tid.passwordInput} {...labelProps}>
       비밀번호
-      <ErrorMessage state={state} />
     </label>
     <input
       required
@@ -59,5 +58,6 @@ export const PasswordInput = ({
       onChange={onChange}
       {...inputProps}
     />
+    <ErrorMessage state={state} />
   </>
 )
