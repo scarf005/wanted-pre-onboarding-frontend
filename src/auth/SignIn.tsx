@@ -22,10 +22,7 @@ const Header = () => (
 const SignInForm = () => {
   const email = useValidatedInput()
   const password = useValidatedInput()
-
-  const isInvalid = [email, password].every(
-    ({ state: { type } }) => type === "err",
-  )
+  const isInvalid = [email, password].some((x) => x.state.type !== "ok")
 
   return (
     <Form method="POST" className={classes.center}>
