@@ -1,23 +1,22 @@
 import { ChangeEvent, useState } from "react"
-import { Result } from "./Result"
 
 type InputEvent = ChangeEvent<HTMLInputElement>
 
-export type ValidationState = Result<null, string>
+export type ValidationState =
+  | { type: "pre" }
+  | { type: "ok" }
+  | { type: "err"; error: string }
 
 export type UseInputValidation = {
   state: ValidationState
   validate: (e: InputEvent) => void
 }
 
-const defaultValidity = {
-  type: "err",
-  error: "",
-} satisfies ValidationState
+const defaultValidity = { type: "pre" } satisfies ValidationState
 
 export const getValidity = (e: InputEvent): ValidationState =>
   e.target.checkValidity()
-    ? { type: "ok", data: null }
+    ? { type: "ok" }
     : { type: "err", error: e.target.validationMessage }
 
 /**

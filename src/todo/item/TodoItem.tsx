@@ -16,7 +16,7 @@ export const TodoItem = (item: Todo) => {
         <Modify item={item} unsetEdit={unsetEdit} />
       ) : (
         <>
-          <Content todo={item.todo} />
+          <Content {...item} />
           <RemoveButton id={item.id} />
           <ModifyButton onClick={setEdit} />
         </>

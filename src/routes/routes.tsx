@@ -16,18 +16,21 @@ export type RouteDefinition = RouteObject & {
 
 export const routes: RouteDefinition[] = [
   {
+    id: "회원가입",
     path: paths.signup,
     element: <SignUp />,
     visibility: "publicOnly",
     action: signUpAction,
   },
   {
+    id: "로그인",
     path: paths.signin,
     element: <SignIn />,
     visibility: "publicOnly",
     action: signInAction,
   },
   {
+    id: "할 일 목록",
     path: paths.todo,
     element: <TodoList />,
     visibility: "privateOnly",
