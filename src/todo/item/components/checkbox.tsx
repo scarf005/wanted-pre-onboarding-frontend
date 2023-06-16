@@ -6,10 +6,7 @@ export const TodoCheckbox = (item: Todo) => {
   const submit = useSerializedSubmit()
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
-    submit(
-      { ...item, isCompleted: e.target.checked },
-      { method: "PUT" },
-    )
+    submit({ ...item, isCompleted: e.target.checked }, { method: "PUT" })
 
   return (
     <input

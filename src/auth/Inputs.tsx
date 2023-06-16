@@ -3,16 +3,19 @@ import { tid } from "../utils/ids"
 import { UseValidatedInput } from "../utils/useInput"
 import { ErrorMessage } from "./ErrorMessage"
 
-type Props =
-  & UseValidatedInput
-  & Partial<{
+type Props = UseValidatedInput &
+  Partial<{
     labelProps: InputHTMLAttributes<HTMLLabelElement>
     inputProps: InputHTMLAttributes<HTMLInputElement>
   }>
 
-export const EmailInput = (
-  { state, value, onChange, labelProps, inputProps }: Props,
-) => (
+export const EmailInput = ({
+  state,
+  value,
+  onChange,
+  labelProps,
+  inputProps,
+}: Props) => (
   <>
     <label htmlFor={tid.emailInput} {...labelProps}>
       이메일
@@ -33,9 +36,13 @@ export const EmailInput = (
   </>
 )
 
-export const PasswordInput = (
-  { state, value, onChange, labelProps, inputProps }: Props,
-) => (
+export const PasswordInput = ({
+  state,
+  value,
+  onChange,
+  labelProps,
+  inputProps,
+}: Props) => (
   <>
     <label htmlFor={tid.passwordInput} {...labelProps}>
       비밀번호
