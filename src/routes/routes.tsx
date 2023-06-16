@@ -2,7 +2,8 @@ import { RouteObject } from "react-router-dom"
 import { TodoList } from "../todo"
 import { paths } from "./paths"
 import { SignIn, SignUp } from "../auth"
-import { deleteTodo, getTodos, postTodo } from "../api"
+import { deleteTodo, getTodos, postTodo, updateTodo } from "../api"
+import { unsafeFormData, unsafePayload } from "../utils/serialized"
 
 export type Visibility = "all" | "privateOnly" | "publicOnly"
 
@@ -10,9 +11,6 @@ export type RouteDefinition = RouteObject & {
   path: string
   visibility: Visibility
 }
-
-export const unsafeFormData = async <T,>(request: Request) =>
-  Object.fromEntries(await request.formData()) as T
 
 export const routes: RouteDefinition[] = [
   {
@@ -37,6 +35,10 @@ export const routes: RouteDefinition[] = [
         case "DELETE":
           await deleteTodo(await unsafeFormData(request))
           return null
+        case "PUT": {
+          await updateTodo(await unsafePayload(request))
+          return null
+        }
       }
     },
   },

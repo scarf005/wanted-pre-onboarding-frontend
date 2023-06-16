@@ -19,10 +19,7 @@ export const TodoItem = ({ item, updateTodo }: Props) => {
 
   return (
     <label>
-      <TodoCheckbox
-        isCompleted={item.isCompleted}
-        onCheck={(v) => updateTodo({ ...item, isCompleted: v })}
-      />
+      <TodoCheckbox {...item} />
       {isEdit
         ? (
           <Modify

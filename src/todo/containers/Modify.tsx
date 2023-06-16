@@ -2,6 +2,7 @@ import { ButtonHTMLAttributes, FormEvent, ReactNode } from "react"
 import { tid } from "../../utils/ids"
 import { Todo } from "../../utils/Todo"
 import { type InputState, useInputState } from "../../utils/useInputState"
+import { useSubmit } from "react-router-dom"
 
 type Props = {
   init: Todo["todo"]
@@ -12,11 +13,13 @@ type Props = {
 export const Modify = (
   { init, onSubmit, cancelButton }: Props,
 ) => {
+  const submit = useSubmit()
   const input = useInputState(init)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     await onSubmit({ todo: input.value })
+    
   }
 
   return (

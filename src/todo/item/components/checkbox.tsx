@@ -1,13 +1,19 @@
+import { useSubmit } from "react-router-dom"
 import { Todo } from "../../../utils/Todo"
 import { StyledCheckbox } from "../../views/StyledCheckbox"
+import { serialized } from "../../../utils/serialized"
 
-type Props = Pick<Todo, "isCompleted"> & {
-  onCheck: (checked: boolean) => Promise<void>
+export const TodoCheckbox = (item: Todo) => {
+  const submit = useSubmit()
+
+  return (
+    <StyledCheckbox
+      checked={item.isCompleted}
+      onChange={(e) =>
+        submit(
+          serialized({ ...item, isCompleted: e.target.checked }),
+          { method: "PUT" },
+        )}
+    />
+  )
 }
-
-export const TodoCheckbox = ({ isCompleted, onCheck }: Props) => (
-  <StyledCheckbox
-    checked={isCompleted}
-    onChange={(e) => onCheck(e.currentTarget.checked)}
-  />
-)
