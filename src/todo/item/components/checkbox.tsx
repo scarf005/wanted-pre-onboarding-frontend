@@ -1,19 +1,21 @@
-import { useSubmit } from "react-router-dom"
 import { Todo } from "../../../utils/Todo"
 import { StyledCheckbox } from "../../views/StyledCheckbox"
-import { serialized } from "../../../utils/serialized"
+import { useSerializedSubmit } from "../../../utils/serialized"
+import { ChangeEvent } from "react"
 
 export const TodoCheckbox = (item: Todo) => {
-  const submit = useSubmit()
+  const submit = useSerializedSubmit()
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) =>
+    submit(
+      { ...item, isCompleted: e.target.checked },
+      { method: "PUT" },
+    )
 
   return (
     <StyledCheckbox
       checked={item.isCompleted}
-      onChange={(e) =>
-        submit(
-          serialized({ ...item, isCompleted: e.target.checked }),
-          { method: "PUT" },
-        )}
+      onChange={handleChange}
     />
   )
 }

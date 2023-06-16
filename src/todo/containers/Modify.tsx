@@ -1,10 +1,9 @@
-import { ButtonHTMLAttributes, FormEvent, ReactNode } from "react"
+import { ButtonHTMLAttributes, FormEvent } from "react"
 import { tid } from "../../utils/ids"
 import { Todo } from "../../utils/Todo"
 import { type InputState, useInputState } from "../../utils/useInputState"
-import { useSubmit } from "react-router-dom"
 import { CancelSubmitButton } from "../item/components/buttons"
-import { serialized } from "../../utils/serialized"
+import { useSerializedSubmit } from "../../utils/serialized"
 
 type Props = {
   item: Todo
@@ -14,12 +13,12 @@ type Props = {
 export const Modify = (
   { item, unsetEdit }: Props,
 ) => {
-  const submit = useSubmit()
+  const submit = useSerializedSubmit()
   const input = useInputState(item.todo)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    submit(serialized({ ...item, todo: input.value }), { method: "PUT" })
+    submit({ ...item, todo: input.value }, { method: "PUT" })
     unsetEdit()
   }
 
