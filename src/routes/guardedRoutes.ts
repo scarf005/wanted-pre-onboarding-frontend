@@ -1,7 +1,7 @@
 import { routes, Visibility } from "./routes"
-import { isAuthenticated } from "../Nav"
 import { LoaderFunction, redirect } from "react-router-dom"
 import { paths } from "./paths"
+import { isAuthenticated } from "./router"
 
 type Option = {
   visibility: Visibility
