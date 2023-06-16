@@ -11,7 +11,7 @@ type Props =
   }>
 
 export const EmailInput = (
-  { state, value, onChange: handle, labelProps, inputProps }: Props,
+  { state, value, onChange, labelProps, inputProps }: Props,
 ) => (
   <>
     <label htmlFor={tid.emailInput} {...labelProps}>
@@ -27,14 +27,14 @@ export const EmailInput = (
       id={tid.emailInput}
       data-testid={tid.emailInput}
       value={value}
-      onChange={handle}
+      onChange={onChange}
       {...inputProps}
     />
   </>
 )
 
 export const PasswordInput = (
-  { state, value, onChange: handle, labelProps, inputProps }: Props,
+  { state, value, onChange, labelProps, inputProps }: Props,
 ) => (
   <>
     <label htmlFor={tid.passwordInput} {...labelProps}>
@@ -49,7 +49,7 @@ export const PasswordInput = (
       id={tid.passwordInput}
       data-testid={tid.passwordInput}
       value={value}
-      onChange={handle}
+      onChange={onChange}
       {...inputProps}
     />
   </>

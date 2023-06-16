@@ -10,34 +10,29 @@ export type Todo = {
 }
 
 // Auth
-export type AuthSignUpRequest = {
+export type AuthForm = {
   email: string
   password: string
 }
 
-export type AuthSignInRequest = {
-  email: string
-  password: string
-}
-
-export type AuthSignInResponse = {
+export type SignInRes = {
   access_token: string
 }
 
 // Crud
-export type TodoCreateRequest = Pick<Todo, "todo">
+export type TodoPostReq = Pick<Todo, "todo">
 
-export type TodoCreateResponse = Todo
+export type TodoPostRes = Todo
 
-export type TodoGetResponse = Todo[]
+export type TodoGetRes = Todo[]
 
-export type TodoUpdateRequest = Omit<Todo, "userId">
+export type TodoPutReq = Omit<Todo, "userId">
 
-export type TodoUpdateResponse = Todo
+export type TodoPutRes = Todo
 
-export type TodoDeleteRequest = Pick<Todo, "id">
+export type TodoDeleteReq = Pick<Todo, "id">
 
-const apiUrl = "https://www.pre-onboarding-selection-task.shop"
+const apiUrl = "https://www.pre-onboarding-selection-task.shop" as const
 
 const api = ky.create({
   prefixUrl: apiUrl,
@@ -45,45 +40,28 @@ const api = ky.create({
 
 const apiAuthed = () => {
   const token = localStorage.getItem(localStorageKey.jwtToken)
-  return api.extend({
-    headers: {
-      Authorization: `Bearer ${token}`,
-    },
-  })
+  return api.extend({ headers: { Authorization: `Bearer ${token}` } })
 }
 
 // Auth
-export const signUp = (request: AuthSignUpRequest) =>
-  fromPromise(api.post("auth/signup", { json: request }))
+const authUrl = "auth" as const
 
-export const signIn = (request: AuthSignInRequest) =>
-  fromPromise(
-    api.post("auth/signin", { json: request })
-      .json<AuthSignInResponse>(),
-  )
+export const signUp = (json: AuthForm) =>
+  fromPromise(api.post(`${authUrl}/signup`, { json }))
+
+export const signIn = (json: AuthForm) =>
+  fromPromise(api.post(`${authUrl}/signin`, { json }).json<SignInRes>())
 
 // Todo
-export const postTodo = async (todo: TodoCreateRequest) => {
-  const response = await apiAuthed()
-    .post("todos", { json: todo })
-    .json<TodoCreateResponse>()
-  return response
-}
+const todoUrl = "todos" as const
 
-export const getTodos = async () => {
-  const response = await apiAuthed()
-    .get("todos")
-    .json<TodoGetResponse>()
-  return response
-}
+export const getTodos = () => apiAuthed().get(todoUrl).json<TodoGetRes>()
 
-export const updateTodo = async (todo: TodoUpdateRequest) => {
-  const response = await apiAuthed()
-    .put(`todos/${todo.id}`, { json: todo })
-    .json<TodoUpdateResponse>()
-  return response
-}
+export const postTodo = (todo: TodoPostReq) =>
+  apiAuthed().post(todoUrl, { json: todo }).json<TodoPostRes>()
 
-export const deleteTodo = async ({ id }: TodoDeleteRequest) => {
-  await apiAuthed().delete(`todos/${id}`)
-}
+export const updateTodo = (todo: TodoPutReq) =>
+  apiAuthed().put(`${todoUrl}/${todo.id}`, { json: todo }).json<TodoPutRes>()
+
+export const deleteTodo = ({ id }: TodoDeleteReq) =>
+  apiAuthed().delete(`${todoUrl}/${id}`)
