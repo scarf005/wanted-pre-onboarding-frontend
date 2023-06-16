@@ -8,8 +8,22 @@ const style: CSSProperties = {
   textOverflow: "ellipsis",
 }
 
-export const Content = ({ todo }: Pick<Todo, "todo">) => (
-  <span style={style} title={todo}>
+const completedStyle: CSSProperties = {
+  color: "gray",
+  fontStyle: "italic",
+  textDecoration: "underline",
+  textUnderlineOffset: "-40%",
+  textDecorationSkipInk: "none",
+}
+
+export const Content = ({
+  todo,
+  isCompleted,
+}: Pick<Todo, "todo" | "isCompleted">) => (
+  <span
+    style={isCompleted ? { ...style, ...completedStyle } : style}
+    title={todo}
+  >
     {todo}
   </span>
 )
