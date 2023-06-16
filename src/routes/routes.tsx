@@ -2,7 +2,7 @@ import { RouteObject } from "react-router-dom"
 import { TodoList } from "../todo"
 import { paths } from "./paths"
 import { SignIn, SignUp } from "../auth"
-import { getTodos, postTodo, TodoCreateRequest } from "../api"
+import { deleteTodo, getTodos, postTodo } from "../api"
 
 export type Visibility = "all" | "privateOnly" | "publicOnly"
 
@@ -30,7 +30,14 @@ export const routes: RouteDefinition[] = [
     element: <TodoList />,
     visibility: "privateOnly",
     loader: getTodos,
-    action: async ({ request }) =>
-      postTodo(await unsafeFormData<TodoCreateRequest>(request)),
+    action: async ({ request }) => {
+      switch (request.method) {
+        case "POST":
+          return postTodo(await unsafeFormData(request))
+        case "DELETE":
+          await deleteTodo(await unsafeFormData(request))
+          return null
+      }
+    },
   },
 ]

@@ -31,7 +31,7 @@ const Submit = ({ empty }: Pick<UseInputState, "empty">) => (
 
 const Input = ({ value, onChange }: InputState) => (
   <input
-    name={"todo" satisfies TodoCreateRequest["todo"]}
+    name={"todo" satisfies keyof TodoCreateRequest}
     data-testid={tid.newTodoInput}
     value={value}
     onChange={onChange}

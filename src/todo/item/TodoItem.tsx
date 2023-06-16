@@ -14,7 +14,7 @@ export type Props =
   & { item: Todo }
   & Pick<UseTodoList, "updateTodo" | "removeTodo">
 
-export const TodoItem = ({ item, updateTodo, removeTodo }: Props) => {
+export const TodoItem = ({ item, updateTodo }: Props) => {
   const { val: isEdit, on: setEdit, off: unsetEdit } = useBoolean(false)
 
   return (
@@ -37,7 +37,7 @@ export const TodoItem = ({ item, updateTodo, removeTodo }: Props) => {
         : (
           <>
             <Content todo={item.todo} />
-            <RemoveButton onClick={() => removeTodo(item)} />
+            <RemoveButton id={item.id} />
             <ModifyButton onClick={setEdit} />
           </>
         )}
