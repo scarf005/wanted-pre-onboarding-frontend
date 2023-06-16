@@ -2,7 +2,7 @@ import { Todo } from "../../../routes/api"
 import { CSSProperties } from "react"
 
 const style: CSSProperties = {
-  width: "10em",
+  width: "19rem",
   whiteSpace: "nowrap",
   overflow: "hidden",
   textOverflow: "ellipsis",

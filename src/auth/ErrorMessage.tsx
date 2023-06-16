@@ -3,7 +3,7 @@ import { ValidationState } from "../utils/useInputValidation"
 
 const errorStyle: CSSProperties = {
   color: "crimson",
-  fontSize: "smaller",
+  fontSize: "1rem",
   paddingLeft: "1em",
 }
 

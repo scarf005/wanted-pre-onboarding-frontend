@@ -45,5 +45,6 @@ const Input = ({ value, onChange }: InputState) => (
     data-testid={tid.modifyInput}
     value={value}
     onChange={onChange}
+    style={{ width: "19rem" }}
   />
 )

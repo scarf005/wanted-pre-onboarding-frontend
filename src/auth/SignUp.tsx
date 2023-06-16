@@ -5,11 +5,11 @@ import { paths } from "../routes/paths"
 import { Form, Link } from "react-router-dom"
 
 export const SignUp = () => (
-  <>
+  <main>
     <Header />
     <SignUpForm />
     <ToSignIn />
-  </>
+  </main>
 )
 
 const Header = () => (

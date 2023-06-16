@@ -5,11 +5,11 @@ import { Form, Link } from "react-router-dom"
 import { paths } from "../routes/paths"
 
 export const SignIn = () => (
-  <>
+  <main>
     <Header />
     <SignInForm />
     <ToSignUp />
-  </>
+  </main>
 )
 
 const Header = () => (
@@ -26,7 +26,7 @@ const SignInForm = () => {
     .every(({ state: { type } }) => type === "err")
 
   return (
-    <Form method="POST">
+    <Form method="POST" style={{ display: "flex", flexDirection: "column", alignItems:'center' }}>
       <fieldset>
         <EmailInput {...email} />
         <PasswordInput
