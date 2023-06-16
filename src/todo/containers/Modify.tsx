@@ -3,23 +3,24 @@ import { tid } from "../../utils/ids"
 import { Todo } from "../../utils/Todo"
 import { type InputState, useInputState } from "../../utils/useInputState"
 import { useSubmit } from "react-router-dom"
+import { CancelSubmitButton } from "../item/components/buttons"
+import { serialized } from "../../utils/serialized"
 
 type Props = {
-  init: Todo["todo"]
-  onSubmit: ({ todo }: Pick<Todo, "todo">) => Promise<void>
-  cancelButton: ReactNode
+  item: Todo
+  unsetEdit: () => void
 }
 
 export const Modify = (
-  { init, onSubmit, cancelButton }: Props,
+  { item, unsetEdit }: Props,
 ) => {
   const submit = useSubmit()
-  const input = useInputState(init)
+  const input = useInputState(item.todo)
 
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    await onSubmit({ todo: input.value })
-    
+    submit(serialized({ ...item, todo: input.value }), { method: "PUT" })
+    unsetEdit()
   }
 
   return (
@@ -29,7 +30,7 @@ export const Modify = (
         disabled={input.unchanged}
         title={input.unchanged ? "변경사항이 없습니다" : ""}
       />
-      {cancelButton}
+      <CancelSubmitButton onClick={unsetEdit} />
     </form>
   )
 }

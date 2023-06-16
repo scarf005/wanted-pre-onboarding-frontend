@@ -1,8 +1,7 @@
 import { Todo } from "../../api"
 import { Modify } from "../containers/Modify"
-import { useBoolean, UseTodoList } from "../hooks"
+import { useBoolean } from "../hooks"
 import {
-  CancelSubmitButton,
   ModifyButton,
   RemoveButton,
 } from "./components/buttons"
@@ -10,11 +9,9 @@ import { TodoCheckbox } from "./components/checkbox"
 import { Content } from "./components/views"
 import "./TodoItem.module.css"
 
-export type Props =
-  & { item: Todo }
-  & Pick<UseTodoList, "updateTodo" | "removeTodo">
+export type Props = { item: Todo }
 
-export const TodoItem = ({ item, updateTodo }: Props) => {
+export const TodoItem = ({ item }: Props) => {
   const { val: isEdit, on: setEdit, off: unsetEdit } = useBoolean(false)
 
   return (
@@ -23,12 +20,8 @@ export const TodoItem = ({ item, updateTodo }: Props) => {
       {isEdit
         ? (
           <Modify
-            init={item.todo}
-            onSubmit={async ({ todo }) => {
-              await updateTodo({ ...item, todo })
-              unsetEdit()
-            }}
-            cancelButton={<CancelSubmitButton onClick={unsetEdit} />}
+            item={item}
+            unsetEdit={unsetEdit}
           />
         )
         : (

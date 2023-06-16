@@ -39,6 +39,10 @@ export const routes: RouteDefinition[] = [
           await updateTodo(await unsafePayload(request))
           return null
         }
+        default:
+          throw new Response(`알 수 없는 요청 ${request.method}`, {
+            status: 405,
+          })
       }
     },
   },
