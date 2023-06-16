@@ -41,7 +41,7 @@
     "dev": "react-scripts start",
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --passWithNoTests",
     "eject": "react-scripts eject",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "pages": "gh-pages -d build"
