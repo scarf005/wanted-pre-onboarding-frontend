@@ -5,7 +5,7 @@ import { mock_token } from "./mockdata"
 
 type StorageOption = { min?: number; maxCount?: number }
 
-const createTodoStorage = ({ min = 1, maxCount = 6 }: StorageOption): Todo[] =>
+const createTodoStorage = ({ min = 4, maxCount = 6 }: StorageOption): Todo[] =>
   Array.from({ length: randomNum(min, min + maxCount) }, (_, i) => ({
     id: i + 1,
     todo: `todo${i + 1}`,

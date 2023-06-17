@@ -17,4 +17,18 @@ test.describe("TODO 목록 GET", () => {
     // 최소 주어진 개수 이상의 TODO가 보여야 함
     expect(await todos.count()).toBeGreaterThanOrEqual(min)
   })
+
+  test("빈 TODO 목록이 보여야 함", async ({ page }) => {
+    const {
+      checkTodosAreRendered,
+      getters: { todos },
+    } = await setupMock(page, { min: 0, maxCount: 0 })
+
+    await checkTodosAreRendered()
+    await page.reload()
+    await checkTodosAreRendered()
+
+    // 최소 주어진 개수 이상의 TODO가 보여야 함
+    expect(await todos.count()).toBe(0)
+  })
 })

@@ -7,6 +7,9 @@ export const randomUnicode = () =>
 export const randomNum = (min: number, max: number) =>
   Math.floor(Math.random() * (max - min + 1)) + min
 
+export const randomAscii = (length: number) =>
+  Array.from({ length }, () => String.fromCharCode(randomNum(32, 126))).join("")
+
 export const randomString = (length: number) =>
   Array.from({ length }, randomUnicode).join("")
 

@@ -1,7 +1,7 @@
 /* eslint-disable testing-library/prefer-screen-queries */
 import { test, expect } from "@playwright/test"
 import { setupMock, zip } from "./todos.utils"
-import { randomNum, randomString } from "./gen.utils"
+import { randomAscii, randomNum, randomString } from "./gen.utils"
 
 test.describe("TODO 목록 PUT", () => {
   // Assignment 7
@@ -72,7 +72,7 @@ test.describe("TODO 목록 PUT", () => {
       await expect(todo.locator(submitButton)).toBeDisabled()
 
       // 수정시 입력란이 비어있지 않으면 제출이 되는지 확인
-      await todo.locator(modifyInput).fill(randomString(randomNum(1, 10)))
+      await todo.locator(modifyInput).fill(randomAscii(randomNum(1, 10)))
       await expect(todo.locator(submitButton)).toBeEnabled()
 
       await todo.locator(cancelButton).click()
@@ -99,7 +99,7 @@ test.describe("TODO 목록 PUT", () => {
       todoStorage,
     )) {
       const prevText = await todo.locator(span).textContent()
-      const newText = randomString(randomNum(1, 10))
+      const newText = randomAscii(randomNum(1, 10))
       if (prevText === null) throw new Error("prevText is null (not possible)")
 
       await todo.locator(modifyButton).click()
