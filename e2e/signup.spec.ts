@@ -7,50 +7,42 @@
  */
 
 /* eslint-disable testing-library/prefer-screen-queries */
-import { test, expect } from "@playwright/test"
+import { test, expect, Page } from "@playwright/test"
+import { apiUrl } from "./apiUrl"
 
-export const apiUrl = "https://www.pre-onboarding-selection-task.shop" as const
 export const mock_token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwic3ViIjo0LCJpYXQiOjE2NTk5MDQyMTUsImV4cCI6MTY2MDUwOTAxNX0.DyUCCsIGxIl8i_sGFCa3uQcyEDb9dChjbl40h3JWJNc"
 
-test("Signup and Login flow", async ({ page }) => {
-  // Mocking signup API request
-  await page.route(`${apiUrl}/auth/signup`, async (route) => {
-    await route.fulfill({
-      status: 201,
-      body: JSON.stringify({}),
-    })
-  })
+const provideMockApi = async (page: Page) => {
+  // 회원가입 API는 무조건 성공
+  await page.route(`${apiUrl}/auth/signup`, (r) => r.fulfill({ status: 201 }))
 
-  // Mocking signin API request
   // 로그인 API는 로그인이 성공했을 시 Response Body에 JWT를 포함해서 응답
-  await page.route(`${apiUrl}/auth/signin`, async (route) => {
-    await route.fulfill({
-      status: 200,
-      json: {
-        access_token: mock_token,
-      },
-    })
-  })
+  await page.route(`${apiUrl}/auth/signin`, (r) =>
+    r.fulfill({ status: 200, json: { access_token: mock_token } }),
+  )
 
-  // Mock get todo API request to prevent /todo page from crashing
-  await page.route(`${apiUrl}/todos`, async (route) => {
-    await route.fulfill({
+  // 예시 TODO 목록
+  await page.route(`${apiUrl}/todos`, (r) =>
+    r.fulfill({
       status: 200,
       json: [
         { id: 1, todo: "치킨", isCompleted: false, userId: 1 },
         { id: 2, todo: "피자", isCompleted: true, userId: 1 },
         { id: 3, todo: "햄버거", isCompleted: false, userId: 1 },
       ],
-    })
-  })
+    }),
+  )
+}
 
+test("회원가입 및 로그인 플로우", async ({ page }) => {
   /**
    * Assignment 2
    *
    * @see https://github.com/walking-sunset/selection-task/blob/d8aead05a8be48a40274ec9e275a2b53495407f7/README.md?plain=1#L108-L110
    */
   // Test for signup
+  await provideMockApi(page)
   await page.goto("/signup")
   await page.fill('input[data-testid="email-input"]', "test@gmail.com")
   await page.fill('input[data-testid="password-input"]', "password123")
