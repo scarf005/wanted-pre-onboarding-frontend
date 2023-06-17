@@ -8,10 +8,7 @@
 
 /* eslint-disable testing-library/prefer-screen-queries */
 import { test, expect, Page } from "@playwright/test"
-import { apiUrl } from "./apiUrl"
-
-export const mock_token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAZ21haWwuY29tIiwic3ViIjo0LCJpYXQiOjE2NTk5MDQyMTUsImV4cCI6MTY2MDUwOTAxNX0.DyUCCsIGxIl8i_sGFCa3uQcyEDb9dChjbl40h3JWJNc"
+import { apiUrl, mock_token } from "./mockdata"
 
 const provideMockApi = async (page: Page) => {
   // 회원가입 API는 무조건 성공

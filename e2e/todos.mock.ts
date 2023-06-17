@@ -1,5 +1,5 @@
 import { Page } from "@playwright/test"
-import { apiUrl } from "./apiUrl"
+import { apiUrl } from "./mockdata"
 
 const headers = {
   "Access-Control-Allow-Origin": "*",
@@ -20,23 +20,17 @@ export const setupMockApi = async (page: Page, todoStorage: Todo[]) => {
     const url = new URL(route.request().url())
     const postData = route.request().postData()
     const method = route.request().method()
-    if (method === "GET") {
-      console.log(
-        `current todoStorage: ${(JSON.stringify(todoStorage), null, 2)}`,
-      )
-      return route.fulfill({
-        status: 200,
-        body: JSON.stringify(todoStorage),
-        headers,
-      })
-    }
-    if (!postData) {
-      throw new Error("No post data")
-    }
+
     switch (method) {
+      case "GET":
+        return route.fulfill({
+          status: 200,
+          body: JSON.stringify(todoStorage),
+          headers,
+        })
       case "POST": {
         // Get the request body and convert to JSON
-        const data = JSON.parse(postData)
+        const data = JSON.parse(postData ?? "{}")
         const newTodo = {
           id: todoStorage.length + 1,
           todo: data.todo,
@@ -54,7 +48,7 @@ export const setupMockApi = async (page: Page, todoStorage: Todo[]) => {
       }
       case "PUT": {
         const id = parseInt(url.pathname.split("/").slice(-1)[0])
-        const data = JSON.parse(postData)
+        const data = JSON.parse(postData ?? "{}")
         const todo = todoStorage.find((todo) => todo.id === id)
 
         if (todo) {
