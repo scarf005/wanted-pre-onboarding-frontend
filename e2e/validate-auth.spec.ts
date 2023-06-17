@@ -5,8 +5,18 @@
 
 /* eslint-disable testing-library/prefer-screen-queries */
 import { test, expect, Page } from "@playwright/test"
-import { getSignInButton, fillAuth } from "./auth.utils"
-import { genRandomNumstring } from "./gen.utils"
+import {
+  getSignInButton,
+  fillAuth,
+  getEmailInput,
+  getPasswordInput,
+} from "./auth.utils"
+import {
+  genRandomValidEmail,
+  randomNum,
+  randomString,
+  randomUnicodeWithoutAt,
+} from "./gen.utils"
 
 const signin = "/signin"
 
@@ -34,16 +44,64 @@ for (const { url, buttonName, buttonId } of pages) {
       page,
     }) => {
       await page.goto(url)
-      await fillAuth(page, { email: genRandomNumstring(0, 20) })
+      await fillAuth(page, { email: randomUnicodeWithoutAt(randomNum(1, 10)) })
       await expect(page.getByTestId(buttonId)).toBeDisabled()
+    })
+
+    test(`이메일은 @ 를 포함만 하면 됨`, async ({ page }) => {
+      await page.goto(url)
+      await fillAuth(page, {})
+      const [begin, end] = [
+        randomUnicodeWithoutAt(randomNum(1, 10)),
+        randomUnicodeWithoutAt(randomNum(1, 10)),
+      ]
+      const cases = [
+        "@",
+        "@!",
+        "@@",
+        "*@*",
+        "오@",
+        "a@b",
+        "foo@bar",
+        "foo@bar.com",
+        `@${begin}`,
+        `${begin}@`,
+        `${begin}@${end}`,
+        `.&*^^%&*(*(^(&*)))@`,
+        "안녕 세상 @",
+        ...Array.from({ length: 10 }, genRandomValidEmail),
+      ]
+      for (const email of cases) {
+        await getEmailInput(page).fill(email)
+        await expect(page.getByTestId(buttonId)).toBeEnabled()
+      }
     })
 
     test(`비밀번호 길이가 8보다 짧을시 ${buttonName} 버튼이 활성화되지 않음`, async ({
       page,
     }) => {
       await page.goto(signin)
-      await fillAuth(page, { password: genRandomNumstring(0, 7) })
-      await expect(getSignInButton(page)).toBeDisabled()
+      for (const password of ["", ".&*#@", randomString(randomNum(0, 7))]) {
+        await fillAuth(page, { password })
+        await expect(getSignInButton(page)).toBeDisabled()
+      }
+    })
+
+    test(`비밀번호는 어떤 문자열이든 8글자 이상이면 됨`, async ({ page }) => {
+      await page.goto(signin)
+      await fillAuth(page, {})
+      for (const password of [
+        "안녕 세상 !!!!!!!!",
+        "foobarbaz",
+        ".894(*ㄴ^(&*&(ㅃ꽈ㅓㄲ ㅡ(8929&*@^$(*@)(",
+        genRandomValidEmail() + randomString(randomNum(8, 10)),
+        randomString(randomNum(8, 10)),
+        randomUnicodeWithoutAt(randomNum(8, 10)),
+        ...Array.from({ length: 10 }, () => randomString(randomNum(8, 30))),
+      ]) {
+        await getPasswordInput(page).fill(password)
+        await expect(getSignInButton(page)).toBeEnabled()
+      }
     })
   })
 }

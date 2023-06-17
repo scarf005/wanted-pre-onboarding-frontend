@@ -23,9 +23,10 @@ export const EmailInput = ({
     <input
       required
       name="email"
-      type="email"
+      type="text"
       autoComplete="email"
-      pattern="^.*@.*$"
+      title="이메일은 @를 포함해야 합니다."
+      pattern=".*@.*"
       id={tid.emailInput}
       data-testid={tid.emailInput}
       value={value}
@@ -35,6 +36,8 @@ export const EmailInput = ({
     <ErrorMessage state={state} />
   </>
 )
+
+const minPasswordLength = 8
 
 export const PasswordInput = ({
   state,
@@ -51,7 +54,8 @@ export const PasswordInput = ({
       required
       name="password"
       type="password"
-      minLength={8}
+      title={`비밀번호는 ${minPasswordLength}자 이상이어야 합니다.`}
+      minLength={minPasswordLength}
       id={tid.passwordInput}
       data-testid={tid.passwordInput}
       value={value}

@@ -10,8 +10,7 @@ export const signUpAction: ActionFunction = async ({ request }) => {
       console.log("회원가입 성공!")
       return redirect(paths.signin)
     case "err":
-      alert("회원가입에 실패했습니다. 다른 계정과 이메일이 겹치는지 확인해주세요.")
-      console.error(res.error)
+      alert(`회원가입에 실패했습니다. ${res.error.message}`)
       return null
   }
 }

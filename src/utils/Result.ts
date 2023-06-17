@@ -9,4 +9,10 @@ export const fromPromise = <T, E = HTTPError>(
 ): AsyncResult<T, E> =>
   res
     .then((data) => ({ type: "ok", data } as const))
-    .catch((error) => ({ type: "err", error }))
+    .catch(async (error) => ({
+      type: "err",
+      error:
+        error instanceof HTTPError
+          ? ((await error.response.json()) as E)
+          : error,
+    }))
