@@ -23,9 +23,10 @@ export const EmailInput = ({
     <input
       required
       name="email"
-      type="email"
+      type="text"
       autoComplete="email"
-      pattern="^.*@.*$"
+      title="이메일은 @를 포함해야 합니다."
+      pattern=".*@.*"
       id={tid.emailInput}
       data-testid={tid.emailInput}
       value={value}
