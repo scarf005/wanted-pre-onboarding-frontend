@@ -19,8 +19,6 @@ export const useInputState = (init = ""): UseInputState => {
   const unchanged = value === init
   const state: Result<null, string> = empty
     ? { type: "err", error: "입력란이 비어 있습니다" }
-    : unchanged
-    ? { type: "err", error: "변경된 내용이 없습니다" }
     : { type: "ok", data: null }
 
   return {
