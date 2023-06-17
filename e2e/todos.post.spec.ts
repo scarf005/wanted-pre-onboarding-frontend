@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test"
 import { setupMock } from "./todos.utils"
+import { randomAscii, randomNum } from "./gen.utils"
 
 test.describe("TODO 목록 POST", () => {
   test("입력란이 비어있으면 TODO 추가 버튼이 비활성화 되어야 함", async ({
@@ -28,13 +29,15 @@ test.describe("TODO 목록 POST", () => {
       todoStorage,
       getters: { newTodoInput, newTodoAddButton, span, todos },
       checkTodosAreRendered,
-    } = await setupMock(page)
+    } = await setupMock(page, { min: 1, maxCount: 1 })
 
     for (const newTodo of [
       "new todo",
       "adfsafsd",
+      "치킨",
       "와!",
       "8293ㄹ98*(&)FAFY(A",
+      ...Array.from({ length: 10 }, () => randomAscii(randomNum(1, 16))),
     ]) {
       await newTodoInput.fill(newTodo)
       await newTodoAddButton.click()
