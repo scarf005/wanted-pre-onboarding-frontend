@@ -45,10 +45,11 @@ test.describe("TODO 목록 PUT", () => {
         span,
         modifyButton,
         modifyInput,
-        deleteButton,
         cancelButton,
         submitButton,
       },
+      checkIsEditing,
+      checkIsNotEditing,
     } = await setupMock(page)
 
     for (const [todo, { todo: dbText }] of zip(
@@ -59,9 +60,12 @@ test.describe("TODO 목록 PUT", () => {
       if (prevText === null) throw new Error("prevText is null (not possible)")
 
       await todo.locator(modifyButton).click()
+
+      // 수정 제출 버튼이 존재하고 활성화되어야 함
+      await expect(todo.locator(submitButton)).toBeEnabled()
+
       // 수정모드 진입시 수정 및 삭제 버튼이 존재하지 않아야 함
-      await expect(todo.locator(modifyButton)).not.toBeVisible()
-      await expect(todo.locator(deleteButton)).not.toBeVisible()
+      await checkIsEditing(todo)
 
       // 수정시 입력란이 비어있으면 제출이 안되는지 확인
       await todo.locator(modifyInput).fill("")
@@ -73,29 +77,43 @@ test.describe("TODO 목록 PUT", () => {
 
       await todo.locator(cancelButton).click()
 
-      // 수정모드 종료시 수정 및 삭제 버튼이 존재해야 함
-      await expect(todo.locator(modifyButton)).toBeVisible()
-      await expect(todo.locator(deleteButton)).toBeVisible()
+      // 수정모드 종료시 원상복구되어야 함
+      await checkIsNotEditing(todo)
 
       // 제출하지 않았으므로 수정되지 않았어야 함
       await expect(todo.locator(span)).toHaveText(prevText)
       await expect(todo.locator(span)).toHaveText(dbText)
     }
   })
+
+  test("TODO 내용 수정시 변경 내용이 반영되어야 함", async ({ page }) => {
+    const {
+      todoStorage,
+      getters: { todos, span, modifyButton, modifyInput, submitButton },
+      checkTodosAreRendered,
+      checkIsNotEditing,
+    } = await setupMock(page)
+
+    for (const [todo, { todo: dbText }] of zip(
+      await todos.all(),
+      todoStorage,
+    )) {
+      const prevText = await todo.locator(span).textContent()
+      const newText = randomString(randomNum(1, 10))
+      if (prevText === null) throw new Error("prevText is null (not possible)")
+
+      await todo.locator(modifyButton).click()
+      await todo.locator(modifyInput).fill(newText)
+      await expect(todo.locator(submitButton)).toBeEnabled()
+      await todo.locator(submitButton).click()
+
+      // 제출했으므로 수정되었어야 함
+      await checkIsNotEditing(todo)
+      await expect(todo.locator(span)).toHaveText(newText)
+      await expect(todo.locator(span)).not.toHaveText(dbText)
+      await expect(todo.locator(span)).not.toHaveText(prevText)
+
+      await checkTodosAreRendered()
+    }
+  })
 })
-
-// test("should update a todo", async ({ page }) => {
-//   const todoStorage = createTodoStorage()
-//   await setupMock(page, todoStorage)
-//   const newTodo = "updated todo"
-
-//   await page.click('li:first-child > button[data-testid="modify-button"]')
-//   await page.fill(
-//     'li:first-child > input[data-testid="modify-input"]',
-//     newTodo,
-//   )
-//   await page.click('li:first-child > button[data-testid="submit-button"]')
-
-//   const firstTodo = await page.$("li:first-child > label > span")
-//   expect(await firstTodo?.textContent()).toBe(newTodo)
-// })

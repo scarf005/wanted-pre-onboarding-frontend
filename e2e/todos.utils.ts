@@ -29,6 +29,8 @@ export const setupMock = async (page: Page, option?: StorageOption) => {
     todoStorage,
     getters,
     checkTodosAreRendered: checkTodosAreRendered(getters, todoStorage),
+    checkIsNotEditing: checkIsNotEditing(getters),
+    checkIsEditing: checkIsEditing(getters),
   }
 }
 
@@ -61,4 +63,22 @@ const checkTodosAreRendered =
         checked: mockTodo.isCompleted,
       })
     }
+  }
+
+const checkIsNotEditing =
+  ({ modifyInput, span, modifyButton, deleteButton }: Getter) =>
+  async (todo: Locator) => {
+    await expect(todo.locator(span)).toBeVisible()
+    await expect(todo.locator(modifyInput)).not.toBeVisible()
+    await expect(todo.locator(modifyButton)).toBeVisible()
+    await expect(todo.locator(deleteButton)).toBeVisible()
+  }
+
+const checkIsEditing =
+  ({ modifyInput, span, modifyButton, deleteButton }: Getter) =>
+  async (todo: Locator) => {
+    await expect(todo.locator(span)).not.toBeVisible()
+    await expect(todo.locator(modifyInput)).toBeVisible()
+    await expect(todo.locator(modifyButton)).not.toBeVisible()
+    await expect(todo.locator(deleteButton)).not.toBeVisible()
   }
