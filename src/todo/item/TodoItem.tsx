@@ -17,8 +17,8 @@ export const TodoItem = (item: Todo) => {
       ) : (
         <>
           <Content {...item} />
-          <RemoveButton id={item.id} />
           <ModifyButton onClick={setEdit} />
+          <RemoveButton id={item.id} />
         </>
       )}
     </label>
