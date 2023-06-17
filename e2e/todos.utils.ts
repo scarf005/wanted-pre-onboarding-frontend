@@ -1,4 +1,4 @@
-import { expect, Page } from "@playwright/test"
+import { expect, Page, Locator } from "@playwright/test"
 import { mockToken } from "./todos.spec"
 import { setupMockApi, Todo } from "./todos.mock"
 import { randomNum } from "./gen.utils"
@@ -22,28 +22,31 @@ export const setupMock = async (page: Page) => {
   )
   await page.goto("/todo")
 
+  const getters = createGetters(page)
   return {
     todoStorage,
-    getters: createGetters(page),
-    checkTodosAreRendered: checkTodosAreRendered(page, todoStorage),
+    getters,
+    checkTodosAreRendered: checkTodosAreRendered(getters.todos, todoStorage),
   }
 }
 
 const createGetters = (page: Page) => ({
   newTodoInput: page.getByTestId("new-todo-input"),
   newTodoAddButton: page.getByTestId("new-todo-add-button"),
-  todos: page.locator("li > label > span"),
+  todos: page.locator("li > label"),
+  todoTexts: page.locator("li > label > span"),
 })
 
-const zip = <T, U>(arr1: T[], arr2: U[]): [T, U][] =>
-  arr1.map((k, i) => [k, arr2[i]])
+export const zip = <T, U>(xs: T[], ys: U[]): [T, U][] =>
+  xs.map((k, i) => [k, ys[i]])
 
-const checkTodosAreRendered = (page: Page, todoStorage: Todo[]) => async () => {
-  const listItems = page.locator("li > label > span")
-  await expect(listItems).toHaveCount(todoStorage.length)
+const checkTodosAreRendered = (todos: Locator, todoStorage: Todo[]) => async () => {
+  await expect(todos).toHaveCount(todoStorage.length)
 
-  for (const [listItem, todo] of zip(await listItems.all(), todoStorage)) {
-    await expect(listItem).toHaveText(todo.todo)
-    await expect(listItem).toBeChecked({ checked: todo.isCompleted })
+  for (const [todo, mockTodo] of zip(await todos.all(), todoStorage)) {
+    await expect(todo.locator("span")).toHaveText(mockTodo.todo)
+    await expect(todo.locator("input[type='checkbox']")).toBeChecked({
+      checked: mockTodo.isCompleted,
+    })
   }
 }

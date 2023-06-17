@@ -13,9 +13,10 @@ export type Todo = {
   userId: number
 }
 
+// Mock API requests
 export const setupMockApi = async (page: Page, todoStorage: Todo[]) => {
-  // Mock API requests
-  await page.route(`${apiUrl}/todos`, (route) => {
+  const baseUrl = new RegExp(`${apiUrl}/todos(/\\d+)?`)
+  await page.route(baseUrl, (route) => {
     const url = new URL(route.request().url())
     const postData = route.request().postData()
     const method = route.request().method()

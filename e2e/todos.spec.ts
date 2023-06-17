@@ -1,6 +1,6 @@
 /* eslint-disable testing-library/prefer-screen-queries */
 import { test, expect } from "@playwright/test"
-import { setupMock } from "./todos.utils"
+import { setupMock, zip } from "./todos.utils"
 
 // Mock JWT token
 export const mockToken = "mock_jwt_token"
@@ -80,24 +80,20 @@ test.describe("TODO List 구현", () => {
   test("TODO 완료 상태 변경", async ({ page }) => {
     const {
       todoStorage,
-      getters: { newTodoInput, newTodoAddButton },
+      getters: { todos },
       checkTodosAreRendered,
     } = await setupMock(page)
 
-    // 첫번째 TODO 완료 상태 변경
     const prevCompletions = todoStorage.map((todo) => todo.isCompleted)
-    const expected = prevCompletions.map((completion) => !completion)
-  })
-  // test("should update todo completion status", async ({ page }) => {
-  //   const todoStorage = createTodoStorage()
-  //   await setupMock(page, todoStorage)
-  //   await page.check('li:first-child > label > input[type="checkbox"]')
 
-  //   const isCompleted = await page.$(
-  //     'li:first-child > label > input[type="checkbox"]:checked',
-  //   )
-  //   expect(Boolean(isCompleted)).toEqual(true)
-  // })
+    for (const [todo, prev] of zip(await todos.all(), prevCompletions)) {
+      const checkbox = todo.locator("input[type='checkbox']")
+      await checkbox.click()
+      await page.waitForTimeout(100)
+      await expect(checkbox).toBeChecked({ checked: !prev })
+    }
+    await checkTodosAreRendered()
+  })
 
   // // Assignment 8
   // test("should display modify and delete buttons", async ({ page }) => {
