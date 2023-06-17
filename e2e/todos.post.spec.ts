@@ -26,7 +26,7 @@ test.describe("TODO 목록 POST", () => {
   test("새 TODO 추가가 페이지 새로고침 후에도 동작", async ({ page }) => {
     const {
       todoStorage,
-      getters: { newTodoInput, newTodoAddButton },
+      getters: { newTodoInput, newTodoAddButton, span, todos },
       checkTodosAreRendered,
     } = await setupMock(page)
 
@@ -43,9 +43,8 @@ test.describe("TODO 목록 POST", () => {
       await expect(page).toHaveURL(/\/todo$/)
 
       // 새 TODO가 추가되었는지 확인
-      const newTodos = page.locator("li > label > span")
-      await expect(newTodos).toHaveCount(todoStorage.length)
-      await expect(newTodos.last()).toHaveText(newTodo)
+      await expect(todos).toHaveCount(todoStorage.length)
+      await expect(todos.last().locator(span)).toHaveText(newTodo)
 
       // 전체 목록 렌더링 확인
       await checkTodosAreRendered()
@@ -54,8 +53,8 @@ test.describe("TODO 목록 POST", () => {
       await page.reload()
 
       // 새 TODO가 여전히 추가되었는지 확인
-      await expect(newTodos).toHaveCount(todoStorage.length)
-      await expect(newTodos.last()).toHaveText(newTodo)
+      await expect(todos).toHaveCount(todoStorage.length)
+      await expect(todos.last().locator(span)).toHaveText(newTodo)
 
       // 전체 목록 렌더링 확인
       await checkTodosAreRendered()

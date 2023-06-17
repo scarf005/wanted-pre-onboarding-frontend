@@ -28,26 +28,36 @@ export const setupMock = async (page: Page, option?: StorageOption) => {
   return {
     todoStorage,
     getters,
-    checkTodosAreRendered: checkTodosAreRendered(getters.todos, todoStorage),
+    checkTodosAreRendered: checkTodosAreRendered(getters, todoStorage),
   }
 }
 
+type Getter = ReturnType<typeof createGetters>
+
 const createGetters = (page: Page) => ({
+  todos: page.locator("li > label"),
+  span: page.locator("span"),
+  checkbox: page.locator("input[type='checkbox']"),
   newTodoInput: page.getByTestId("new-todo-input"),
   newTodoAddButton: page.getByTestId("new-todo-add-button"),
-  todos: page.locator("li > label"),
+  modifyButton: page.getByTestId("modify-button"),
+  deleteButton: page.getByTestId("delete-button"),
+  modifyInput: page.getByTestId("modify-input"),
+  submitButton: page.getByTestId("submit-button"),
+  cancelButton: page.getByTestId("cancel-button"),
 })
 
 export const zip = <T, U>(xs: T[], ys: U[]): [T, U][] =>
   xs.map((k, i) => [k, ys[i]])
 
 const checkTodosAreRendered =
-  (todos: Locator, todoStorage: Todo[]) => async () => {
+  ({ todos, span, checkbox }: Getter, todoStorage: Todo[]) =>
+  async () => {
     await expect(todos).toHaveCount(todoStorage.length)
 
     for (const [todo, mockTodo] of zip(await todos.all(), todoStorage)) {
-      await expect(todo.locator("span")).toHaveText(mockTodo.todo)
-      await expect(todo.locator("input[type='checkbox']")).toBeChecked({
+      await expect(todo.locator(span)).toHaveText(mockTodo.todo)
+      await expect(todo.locator(checkbox)).toBeChecked({
         checked: mockTodo.isCompleted,
       })
     }
