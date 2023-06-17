@@ -37,6 +37,8 @@ export const EmailInput = ({
   </>
 )
 
+const minPasswordLength = 8
+
 export const PasswordInput = ({
   state,
   value,
@@ -52,7 +54,8 @@ export const PasswordInput = ({
       required
       name="password"
       type="password"
-      minLength={8}
+      title={`비밀번호는 ${minPasswordLength}자 이상이어야 합니다.`}
+      minLength={minPasswordLength}
       id={tid.passwordInput}
       data-testid={tid.passwordInput}
       value={value}
