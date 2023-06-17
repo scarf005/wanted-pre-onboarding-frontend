@@ -19,6 +19,12 @@ export type SignInRes = {
   access_token: string
 }
 
+type AuthFailRes = {
+  statusCode: number
+  message: string
+  error: string
+}
+
 // Crud
 export type TodoPostReq = Pick<Todo, "todo">
 
@@ -47,10 +53,12 @@ const apiAuthed = () => {
 const authUrl = "auth" as const
 
 export const signUp = (json: AuthForm) =>
-  fromPromise(api.post(`${authUrl}/signup`, { json }))
+  fromPromise<unknown, AuthFailRes>(api.post(`${authUrl}/signup`, { json }))
 
 export const signIn = (json: AuthForm) =>
-  fromPromise(api.post(`${authUrl}/signin`, { json }).json<SignInRes>())
+  fromPromise<SignInRes, AuthFailRes>(
+    api.post(`${authUrl}/signin`, { json }).json(),
+  )
 
 // Todo
 const todoUrl = "todos" as const
